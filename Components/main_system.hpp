@@ -11,10 +11,10 @@
 /* Includes  ----------------------------------------------------------------------------*/
 #include "Mutex.hpp"
 // Board specific includes
-#include "stm32l1xx_hal.h"
-#include "stm32l1xx_ll_usart.h"
-#include "stm32l1xx_hal_rcc.h"
-#include "stm32l1xx_ll_dma.h"
+#include "stm32l4xx_hal.h"
+#include "stm32l4xx_ll_usart.h"
+#include "stm32l4xx_hal_rcc.h"
+#include "stm32l4xx_ll_dma.h"
 
 
 
