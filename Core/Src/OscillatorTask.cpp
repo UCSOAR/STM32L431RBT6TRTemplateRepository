@@ -38,8 +38,14 @@ extern CRC_HandleTypeDef hi2c2;
 OscillatorTask::OscillatorTask()
     : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), usart_(UART::Debug) {
   memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
+  memset(oscillatorLogBuffer, 0, sizeof(oscillatorLogBuffer));
   oscillatorMsgIdx = 0;
+  oscillatorLogIdx = 0;
+
+  // delay frequency in ms
+  sampleInterval = 10;
   isOscillatorMsgReady = false;
+  loggingStatus = false;
 }
 
 /**
@@ -70,43 +76,48 @@ void OscillatorTask::Run(void* pvParams) {
   while (1) {
     Command cm;
 
-    // Wait forever for a command
-    qEvtQueue->ReceiveWait(cm);
+    // Wait forever for a command (non blocking)
+    qEvtQueue->Receive(cm, 0);
 
     // Process the command
     if (cm.GetCommand() == DATA_COMMAND &&
         cm.GetTaskCommand() == EVENT_OSCILLATOR_RX_COMPLETE) {
-      HandleOscillatorMessage((const char*)oscillatorBuffer);
+      HandleUARTMessage((const char*)oscillatorBuffer);
     }
-
     cm.Reset();
   }
+
+  // // this block is mine but idk its probably wrong
+  //   if (loggingStatus) {
+  //           if (oscillatorLogIdx < OSCILLATOR_LOG_BUFFER_SZ_BYTES) {
+  //               oscillatorLogBuffer[oscillatorLogIdx++] = HAL_GetTick(); 
+  //           }
+  //       }
+
+  if (loggingStatus) {
+            if (oscillatorLogIdx + sizeof(uint32_t) <= OSCILLATOR_LOG_BUFFER_SZ_BYTES) {
+                uint32_t tick = HAL_GetTick();
+                memcpy(&oscillatorLogBuffer[oscillatorLogIdx], &tick, sizeof(tick));
+                oscillatorLogIdx += sizeof(tick);
+            }
+  }
+
+  osDelay(sampleInterval);
 }
 
 /**
  * @brief Handles oscillator messages, assumes msg is null terminated
  * @param msg Message to read, must be null termianted
  */
-void OscillatorTask::HandleOscillatorMessage(const char* msg) {
-  //-- SYSTEM / CHAR COMMANDS -- (Must be last)
-  if (strcmp(msg, "sysreset") == 0) {
-    // Reset the system
-    SOAR_ASSERT(false, "System reset requested");
-  } else if (strcmp(msg, "sysinfo") == 0) {
-    // Print message
-    SOAR_PRINT("\n\n-- CUBE SYSTEM --\n");
-    SOAR_PRINT("Current System Free Heap: %d Bytes\n", xPortGetFreeHeapSize());
-    SOAR_PRINT("Lowest Ever Free Heap: %d Bytes\n",
-               xPortGetMinimumEverFreeHeapSize());
-    SOAR_PRINT("Debug Task Runtime  \t: %d ms\n\n",
-               TICKS_TO_MS(xTaskGetTickCount()));
-  } else {
-    // Single character command, or unknown command
-    switch (msg[0]) {
-      default:
-        SOAR_PRINT("Debug, unknown command: %s\n", msg);
-        break;
-    }
+void OscillatorTask::HandleUARTMessage(const char* msg) {
+  if (strcmp(msg, "start") == 0) {
+    SOAR_PRINT("Starting system logging\n");
+    loggingStatus = true;
+    oscillatorLogIdx = 0;
+  }
+  else if (strcmp(msg, "stop") == 0){
+    SOAR_PRINT("Ending system logging\n");
+    loggingStatus = false;
   }
 
   // We've read the data, clear the buffer

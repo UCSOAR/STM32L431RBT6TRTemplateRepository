@@ -609,8 +609,10 @@ Discarded input sections
                 0x00000000        0x2 ./Core/Src/OscillatorTask.o
  .rodata._ZL29OSCILLATOR_RX_BUFFER_SZ_BYTES
                 0x00000000        0x2 ./Core/Src/OscillatorTask.o
+ .rodata._ZL30OSCILLATOR_LOG_BUFFER_SZ_BYTES
+                0x00000000        0x2 ./Core/Src/OscillatorTask.o
  .bss._ZZN14OscillatorTask4InstEvE4inst
-                0x00000000       0x28 ./Core/Src/OscillatorTask.o
+                0x00000000      0x42c ./Core/Src/OscillatorTask.o
  .bss._ZGVZN14OscillatorTask4InstEvE4inst
                 0x00000000        0x4 ./Core/Src/OscillatorTask.o
  .text._ZN14OscillatorTask4InstEv
@@ -620,16 +622,16 @@ Discarded input sections
  .rodata._ZL22OSCILLATOR_TASK_PERIOD
                 0x00000000        0x1 ./Core/Src/OscillatorTask.o
  .text._ZN14OscillatorTaskC2Ev
-                0x00000000       0x64 ./Core/Src/OscillatorTask.o
- .rodata        0x00000000      0x1a2 ./Core/Src/OscillatorTask.o
+                0x00000000       0x8c ./Core/Src/OscillatorTask.o
+ .rodata        0x00000000      0x11e ./Core/Src/OscillatorTask.o
  .text._ZN14OscillatorTask8InitTaskEv
                 0x00000000       0x64 ./Core/Src/OscillatorTask.o
  .text._ZN14OscillatorTask3RunEPv
                 0x00000000       0x6c ./Core/Src/OscillatorTask.o
- .text._ZN14OscillatorTask23HandleOscillatorMessageEPKc
-                0x00000000       0xac ./Core/Src/OscillatorTask.o
+ .text._ZN14OscillatorTask17HandleUARTMessageEPKc
+                0x00000000       0x74 ./Core/Src/OscillatorTask.o
  .text._ZN14OscillatorTask11ReceiveDataEv
-                0x00000000       0x26 ./Core/Src/OscillatorTask.o
+                0x00000000       0x28 ./Core/Src/OscillatorTask.o
  .text._ZN14OscillatorTask15InterruptRxDataEh
                 0x00000000       0xbe ./Core/Src/OscillatorTask.o
  .text._ZThn12_N14OscillatorTask15InterruptRxDataEh
@@ -10398,85 +10400,85 @@ LOAD C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x00000000    0x2afde
+.debug_info     0x00000000    0x2b022
  .debug_info    0x00000000     0x146b ./Components/RunInterface.o
  .debug_info    0x0000146b     0x17ef ./Components/main_system.o
- .debug_info    0x00002c5a     0x22c3 ./Core/Src/OscillatorTask.o
- .debug_info    0x00004f1d      0x9bc ./Core/Src/freertos.o
- .debug_info    0x000058d9     0x19dc ./Core/Src/main.o
- .debug_info    0x000072b5      0xfe6 ./Core/Src/stm32l4xx_hal_msp.o
- .debug_info    0x0000829b      0xc19 ./Core/Src/stm32l4xx_hal_timebase_tim.o
- .debug_info    0x00008eb4      0x725 ./Core/Src/stm32l4xx_it.o
- .debug_info    0x000095d9      0x168 ./Core/Src/sysmem.o
- .debug_info    0x00009741      0x5bf ./Core/Src/system_stm32l4xx.o
- .debug_info    0x00009d00       0x30 ./Core/Startup/startup_stm32l431rbtx.o
- .debug_info    0x00009d30      0xa93 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
- .debug_info    0x0000a7c3      0xd1b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
- .debug_info    0x0000b4de      0x530 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
- .debug_info    0x0000ba0e      0x35b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
- .debug_info    0x0000bd69      0x8c6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
- .debug_info    0x0000c62f      0xbc3 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
- .debug_info    0x0000d1f2      0xeff ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
- .debug_info    0x0000e0f1     0x2a9a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
- .debug_info    0x00010b8b     0x169e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
- .debug_info    0x00012229      0x952 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_info    0x00012b7b      0xc51 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_info    0x000137cc      0x786 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_info    0x00013f52     0x22b5 ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_info    0x00016207      0x2af ./Middlewares/Third_Party/FreeRTOS/Source/list.o
- .debug_info    0x000164b6     0x183b ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
- .debug_info    0x00017cf1     0x2408 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
- .debug_info    0x0001a0f9     0x18f5 ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
- .debug_info    0x0001b9ee      0x4de ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
- .debug_info    0x0001becc      0x4d5 ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
- .debug_info    0x0001c3a1     0x22c1 ./SoarDebug/DebugTask.o
- .debug_info    0x0001e662     0x2686 ./SoarOS/Core/Command.o
- .debug_info    0x00020ce8     0x175d ./SoarOS/Core/Mutex.o
- .debug_info    0x00022445     0x1af0 ./SoarOS/Core/Queue.o
- .debug_info    0x00023f35     0x1b8e ./SoarOS/Core/Task.o
- .debug_info    0x00025ac3     0x1e94 ./SoarOS/CubeDefines.o
- .debug_info    0x00027957     0x1e7c ./SoarOS/CubeTask.o
- .debug_info    0x000297d3     0x180b ./SoarOS/Drivers/UARTDriver.o
+ .debug_info    0x00002c5a     0x2307 ./Core/Src/OscillatorTask.o
+ .debug_info    0x00004f61      0x9bc ./Core/Src/freertos.o
+ .debug_info    0x0000591d     0x19dc ./Core/Src/main.o
+ .debug_info    0x000072f9      0xfe6 ./Core/Src/stm32l4xx_hal_msp.o
+ .debug_info    0x000082df      0xc19 ./Core/Src/stm32l4xx_hal_timebase_tim.o
+ .debug_info    0x00008ef8      0x725 ./Core/Src/stm32l4xx_it.o
+ .debug_info    0x0000961d      0x168 ./Core/Src/sysmem.o
+ .debug_info    0x00009785      0x5bf ./Core/Src/system_stm32l4xx.o
+ .debug_info    0x00009d44       0x30 ./Core/Startup/startup_stm32l431rbtx.o
+ .debug_info    0x00009d74      0xa93 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+ .debug_info    0x0000a807      0xd1b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
+ .debug_info    0x0000b522      0x530 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
+ .debug_info    0x0000ba52      0x35b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
+ .debug_info    0x0000bdad      0x8c6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
+ .debug_info    0x0000c673      0xbc3 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
+ .debug_info    0x0000d236      0xeff ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
+ .debug_info    0x0000e135     0x2a9a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
+ .debug_info    0x00010bcf     0x169e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
+ .debug_info    0x0001226d      0x952 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_info    0x00012bbf      0xc51 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_info    0x00013810      0x786 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_info    0x00013f96     0x22b5 ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_info    0x0001624b      0x2af ./Middlewares/Third_Party/FreeRTOS/Source/list.o
+ .debug_info    0x000164fa     0x183b ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
+ .debug_info    0x00017d35     0x2408 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
+ .debug_info    0x0001a13d     0x18f5 ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
+ .debug_info    0x0001ba32      0x4de ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ .debug_info    0x0001bf10      0x4d5 ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_info    0x0001c3e5     0x22c1 ./SoarDebug/DebugTask.o
+ .debug_info    0x0001e6a6     0x2686 ./SoarOS/Core/Command.o
+ .debug_info    0x00020d2c     0x175d ./SoarOS/Core/Mutex.o
+ .debug_info    0x00022489     0x1af0 ./SoarOS/Core/Queue.o
+ .debug_info    0x00023f79     0x1b8e ./SoarOS/Core/Task.o
+ .debug_info    0x00025b07     0x1e94 ./SoarOS/CubeDefines.o
+ .debug_info    0x0002799b     0x1e7c ./SoarOS/CubeTask.o
+ .debug_info    0x00029817     0x180b ./SoarOS/Drivers/UARTDriver.o
 
-.debug_abbrev   0x00000000     0x6ff1
+.debug_abbrev   0x00000000     0x702f
  .debug_abbrev  0x00000000      0x2f6 ./Components/RunInterface.o
  .debug_abbrev  0x000002f6      0x4bc ./Components/main_system.o
- .debug_abbrev  0x000007b2      0x5d5 ./Core/Src/OscillatorTask.o
- .debug_abbrev  0x00000d87      0x18f ./Core/Src/freertos.o
- .debug_abbrev  0x00000f16      0x343 ./Core/Src/main.o
- .debug_abbrev  0x00001259      0x1ff ./Core/Src/stm32l4xx_hal_msp.o
- .debug_abbrev  0x00001458      0x1f4 ./Core/Src/stm32l4xx_hal_timebase_tim.o
- .debug_abbrev  0x0000164c      0x196 ./Core/Src/stm32l4xx_it.o
- .debug_abbrev  0x000017e2       0xbc ./Core/Src/sysmem.o
- .debug_abbrev  0x0000189e      0x11a ./Core/Src/system_stm32l4xx.o
- .debug_abbrev  0x000019b8       0x24 ./Core/Startup/startup_stm32l431rbtx.o
- .debug_abbrev  0x000019dc      0x242 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
- .debug_abbrev  0x00001c1e      0x31c ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
- .debug_abbrev  0x00001f3a      0x1ee ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
- .debug_abbrev  0x00002128      0x151 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
- .debug_abbrev  0x00002279      0x1f9 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
- .debug_abbrev  0x00002472      0x2cb ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
- .debug_abbrev  0x0000273d      0x2a1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
- .debug_abbrev  0x000029de      0x278 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
- .debug_abbrev  0x00002c56      0x283 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
- .debug_abbrev  0x00002ed9      0x235 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_abbrev  0x0000310e      0x221 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_abbrev  0x0000332f      0x1ca ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_abbrev  0x000034f9      0x426 ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_abbrev  0x0000391f       0xf5 ./Middlewares/Third_Party/FreeRTOS/Source/list.o
- .debug_abbrev  0x00003a14      0x3b6 ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
- .debug_abbrev  0x00003dca      0x3e5 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
- .debug_abbrev  0x000041af      0x34d ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
- .debug_abbrev  0x000044fc      0x25c ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
- .debug_abbrev  0x00004758      0x21d ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
- .debug_abbrev  0x00004975      0x5d6 ./SoarDebug/DebugTask.o
- .debug_abbrev  0x00004f4b      0x631 ./SoarOS/Core/Command.o
- .debug_abbrev  0x0000557c      0x3af ./SoarOS/Core/Mutex.o
- .debug_abbrev  0x0000592b      0x3f1 ./SoarOS/Core/Queue.o
- .debug_abbrev  0x00005d1c      0x464 ./SoarOS/Core/Task.o
- .debug_abbrev  0x00006180      0x51a ./SoarOS/CubeDefines.o
- .debug_abbrev  0x0000669a      0x558 ./SoarOS/CubeTask.o
- .debug_abbrev  0x00006bf2      0x3ff ./SoarOS/Drivers/UARTDriver.o
+ .debug_abbrev  0x000007b2      0x613 ./Core/Src/OscillatorTask.o
+ .debug_abbrev  0x00000dc5      0x18f ./Core/Src/freertos.o
+ .debug_abbrev  0x00000f54      0x343 ./Core/Src/main.o
+ .debug_abbrev  0x00001297      0x1ff ./Core/Src/stm32l4xx_hal_msp.o
+ .debug_abbrev  0x00001496      0x1f4 ./Core/Src/stm32l4xx_hal_timebase_tim.o
+ .debug_abbrev  0x0000168a      0x196 ./Core/Src/stm32l4xx_it.o
+ .debug_abbrev  0x00001820       0xbc ./Core/Src/sysmem.o
+ .debug_abbrev  0x000018dc      0x11a ./Core/Src/system_stm32l4xx.o
+ .debug_abbrev  0x000019f6       0x24 ./Core/Startup/startup_stm32l431rbtx.o
+ .debug_abbrev  0x00001a1a      0x242 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+ .debug_abbrev  0x00001c5c      0x31c ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
+ .debug_abbrev  0x00001f78      0x1ee ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
+ .debug_abbrev  0x00002166      0x151 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
+ .debug_abbrev  0x000022b7      0x1f9 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
+ .debug_abbrev  0x000024b0      0x2cb ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
+ .debug_abbrev  0x0000277b      0x2a1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
+ .debug_abbrev  0x00002a1c      0x278 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
+ .debug_abbrev  0x00002c94      0x283 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
+ .debug_abbrev  0x00002f17      0x235 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_abbrev  0x0000314c      0x221 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_abbrev  0x0000336d      0x1ca ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_abbrev  0x00003537      0x426 ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_abbrev  0x0000395d       0xf5 ./Middlewares/Third_Party/FreeRTOS/Source/list.o
+ .debug_abbrev  0x00003a52      0x3b6 ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
+ .debug_abbrev  0x00003e08      0x3e5 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
+ .debug_abbrev  0x000041ed      0x34d ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
+ .debug_abbrev  0x0000453a      0x25c ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ .debug_abbrev  0x00004796      0x21d ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_abbrev  0x000049b3      0x5d6 ./SoarDebug/DebugTask.o
+ .debug_abbrev  0x00004f89      0x631 ./SoarOS/Core/Command.o
+ .debug_abbrev  0x000055ba      0x3af ./SoarOS/Core/Mutex.o
+ .debug_abbrev  0x00005969      0x3f1 ./SoarOS/Core/Queue.o
+ .debug_abbrev  0x00005d5a      0x464 ./SoarOS/Core/Task.o
+ .debug_abbrev  0x000061be      0x51a ./SoarOS/CubeDefines.o
+ .debug_abbrev  0x000066d8      0x558 ./SoarOS/CubeTask.o
+ .debug_abbrev  0x00006c30      0x3ff ./SoarOS/Drivers/UARTDriver.o
 
 .debug_aranges  0x00000000     0x1a98
  .debug_aranges
@@ -10793,122 +10795,122 @@ LOAD C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x0002b6ed      0x4ad ./SoarOS/CubeTask.o
  .debug_macro   0x0002bb9a      0x422 ./SoarOS/Drivers/UARTDriver.o
 
-.debug_line     0x00000000    0x25590
+.debug_line     0x00000000    0x2559f
  .debug_line    0x00000000      0xf5c ./Components/RunInterface.o
  .debug_line    0x00000f5c     0x12d6 ./Components/main_system.o
- .debug_line    0x00002232     0x13c7 ./Core/Src/OscillatorTask.o
- .debug_line    0x000035f9      0xab5 ./Core/Src/freertos.o
- .debug_line    0x000040ae      0xe3a ./Core/Src/main.o
- .debug_line    0x00004ee8      0x902 ./Core/Src/stm32l4xx_hal_msp.o
- .debug_line    0x000057ea      0x7eb ./Core/Src/stm32l4xx_hal_timebase_tim.o
- .debug_line    0x00005fd5      0x916 ./Core/Src/stm32l4xx_it.o
- .debug_line    0x000068eb      0x583 ./Core/Src/sysmem.o
- .debug_line    0x00006e6e      0x819 ./Core/Src/system_stm32l4xx.o
- .debug_line    0x00007687       0x7a ./Core/Startup/startup_stm32l431rbtx.o
- .debug_line    0x00007701      0xb74 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
- .debug_line    0x00008275      0xd3d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
- .debug_line    0x00008fb2      0xabf ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
- .debug_line    0x00009a71      0x83b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
- .debug_line    0x0000a2ac      0xbd3 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
- .debug_line    0x0000ae7f     0x102b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
- .debug_line    0x0000beaa     0x13f4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
- .debug_line    0x0000d29e     0x3c53 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
- .debug_line    0x00010ef1     0x1b75 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
- .debug_line    0x00012a66      0xa9f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_line    0x00013505     0x171e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_line    0x00014c23      0x9e6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_line    0x00015609     0x1315 ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_line    0x0001691e      0x7a1 ./Middlewares/Third_Party/FreeRTOS/Source/list.o
- .debug_line    0x000170bf     0x1569 ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
- .debug_line    0x00018628     0x1a27 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
- .debug_line    0x0001a04f      0xd66 ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
- .debug_line    0x0001adb5      0x96a ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
- .debug_line    0x0001b71f      0x9cc ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
- .debug_line    0x0001c0eb     0x141c ./SoarDebug/DebugTask.o
- .debug_line    0x0001d507     0x13f1 ./SoarOS/Core/Command.o
- .debug_line    0x0001e8f8      0xfb6 ./SoarOS/Core/Mutex.o
- .debug_line    0x0001f8ae     0x123b ./SoarOS/Core/Queue.o
- .debug_line    0x00020ae9     0x11cb ./SoarOS/Core/Task.o
- .debug_line    0x00021cb4     0x1383 ./SoarOS/CubeDefines.o
- .debug_line    0x00023037     0x129a ./SoarOS/CubeTask.o
- .debug_line    0x000242d1     0x12bf ./SoarOS/Drivers/UARTDriver.o
+ .debug_line    0x00002232     0x13d6 ./Core/Src/OscillatorTask.o
+ .debug_line    0x00003608      0xab5 ./Core/Src/freertos.o
+ .debug_line    0x000040bd      0xe3a ./Core/Src/main.o
+ .debug_line    0x00004ef7      0x902 ./Core/Src/stm32l4xx_hal_msp.o
+ .debug_line    0x000057f9      0x7eb ./Core/Src/stm32l4xx_hal_timebase_tim.o
+ .debug_line    0x00005fe4      0x916 ./Core/Src/stm32l4xx_it.o
+ .debug_line    0x000068fa      0x583 ./Core/Src/sysmem.o
+ .debug_line    0x00006e7d      0x819 ./Core/Src/system_stm32l4xx.o
+ .debug_line    0x00007696       0x7a ./Core/Startup/startup_stm32l431rbtx.o
+ .debug_line    0x00007710      0xb74 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+ .debug_line    0x00008284      0xd3d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
+ .debug_line    0x00008fc1      0xabf ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
+ .debug_line    0x00009a80      0x83b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
+ .debug_line    0x0000a2bb      0xbd3 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
+ .debug_line    0x0000ae8e     0x102b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
+ .debug_line    0x0000beb9     0x13f4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
+ .debug_line    0x0000d2ad     0x3c53 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
+ .debug_line    0x00010f00     0x1b75 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
+ .debug_line    0x00012a75      0xa9f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_line    0x00013514     0x171e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_line    0x00014c32      0x9e6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_line    0x00015618     0x1315 ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_line    0x0001692d      0x7a1 ./Middlewares/Third_Party/FreeRTOS/Source/list.o
+ .debug_line    0x000170ce     0x1569 ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
+ .debug_line    0x00018637     0x1a27 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
+ .debug_line    0x0001a05e      0xd66 ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
+ .debug_line    0x0001adc4      0x96a ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ .debug_line    0x0001b72e      0x9cc ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_line    0x0001c0fa     0x141c ./SoarDebug/DebugTask.o
+ .debug_line    0x0001d516     0x13f1 ./SoarOS/Core/Command.o
+ .debug_line    0x0001e907      0xfb6 ./SoarOS/Core/Mutex.o
+ .debug_line    0x0001f8bd     0x123b ./SoarOS/Core/Queue.o
+ .debug_line    0x00020af8     0x11cb ./SoarOS/Core/Task.o
+ .debug_line    0x00021cc3     0x1383 ./SoarOS/CubeDefines.o
+ .debug_line    0x00023046     0x129a ./SoarOS/CubeTask.o
+ .debug_line    0x000242e0     0x12bf ./SoarOS/Drivers/UARTDriver.o
 
-.debug_str      0x00000000    0xe7f7a
+.debug_str      0x00000000    0xe7fd4
  .debug_str     0x00000000    0xd311b ./Components/RunInterface.o
                               0xd419f (size before relaxing)
  .debug_str     0x000d311b      0xd15 ./Components/main_system.o
                               0xd4ea5 (size before relaxing)
- .debug_str     0x000d3e30      0xb8f ./Core/Src/OscillatorTask.o
-                              0xd57d6 (size before relaxing)
- .debug_str     0x000d49bf     0x8d62 ./Core/Src/freertos.o
+ .debug_str     0x000d3e30      0xbd7 ./Core/Src/OscillatorTask.o
+                              0xd57e9 (size before relaxing)
+ .debug_str     0x000d4a07     0x8d62 ./Core/Src/freertos.o
                               0xd5339 (size before relaxing)
- .debug_str     0x000dd721      0xf9d ./Core/Src/main.o
+ .debug_str     0x000dd769      0xf9d ./Core/Src/main.o
                               0xd8456 (size before relaxing)
- .debug_str     0x000de6be      0x2f1 ./Core/Src/stm32l4xx_hal_msp.o
+ .debug_str     0x000de706      0x2f1 ./Core/Src/stm32l4xx_hal_msp.o
                               0xd02d4 (size before relaxing)
- .debug_str     0x000de9af      0x10a ./Core/Src/stm32l4xx_hal_timebase_tim.o
+ .debug_str     0x000de9f7      0x10a ./Core/Src/stm32l4xx_hal_timebase_tim.o
                               0xc4c63 (size before relaxing)
- .debug_str     0x000deab9       0xbe ./Core/Src/stm32l4xx_it.o
+ .debug_str     0x000deb01       0xbe ./Core/Src/stm32l4xx_it.o
                               0xcfa4f (size before relaxing)
- .debug_str     0x000deb77      0x35c ./Core/Src/sysmem.o
+ .debug_str     0x000debbf      0x35c ./Core/Src/sysmem.o
                                0x60fd (size before relaxing)
- .debug_str     0x000deed3       0x9e ./Core/Src/system_stm32l4xx.o
+ .debug_str     0x000def1b       0x9e ./Core/Src/system_stm32l4xx.o
                               0xc42a6 (size before relaxing)
- .debug_str     0x000def71       0x44 ./Core/Startup/startup_stm32l431rbtx.o
+ .debug_str     0x000defb9       0x44 ./Core/Startup/startup_stm32l431rbtx.o
                                  0x9b (size before relaxing)
- .debug_str     0x000defb5      0x5a2 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+ .debug_str     0x000deffd      0x5a2 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
                               0xc4d56 (size before relaxing)
- .debug_str     0x000df557      0x2c2 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
+ .debug_str     0x000df59f      0x2c2 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
                               0xc4a39 (size before relaxing)
- .debug_str     0x000df819       0xc6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
+ .debug_str     0x000df861       0xc6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc.o
                               0xc4360 (size before relaxing)
- .debug_str     0x000df8df       0x69 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
+ .debug_str     0x000df927       0x69 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_crc_ex.o
                               0xc431a (size before relaxing)
- .debug_str     0x000df948      0x453 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
+ .debug_str     0x000df990      0x453 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
                               0xc46dd (size before relaxing)
- .debug_str     0x000dfd9b      0x34b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
+ .debug_str     0x000dfde3      0x34b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
                               0xc48a6 (size before relaxing)
- .debug_str     0x000e00e6      0x536 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
+ .debug_str     0x000e012e      0x536 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
                               0xc4b31 (size before relaxing)
- .debug_str     0x000e061c      0xeab ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
+ .debug_str     0x000e0664      0xeab ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
                               0xc55e3 (size before relaxing)
- .debug_str     0x000e14c7      0x60d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
+ .debug_str     0x000e150f      0x60d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
                               0xc4ef7 (size before relaxing)
- .debug_str     0x000e1ad4      0x665 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_str     0x000e1b1c      0x665 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
                               0xc59f2 (size before relaxing)
- .debug_str     0x000e2139      0xb8a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_str     0x000e2181      0xb8a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
                               0xc947c (size before relaxing)
- .debug_str     0x000e2cc3      0x86b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_str     0x000e2d0b      0x86b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
                               0xcac8d (size before relaxing)
- .debug_str     0x000e352e      0xc1a ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_str     0x000e3576      0xc2c ./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
                                0xecd4 (size before relaxing)
- .debug_str     0x000e4148      0x20f ./Middlewares/Third_Party/FreeRTOS/Source/list.o
+ .debug_str     0x000e41a2      0x20f ./Middlewares/Third_Party/FreeRTOS/Source/list.o
                                0xaba9 (size before relaxing)
- .debug_str     0x000e4357      0x82e ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
+ .debug_str     0x000e43b1      0x82e ./Middlewares/Third_Party/FreeRTOS/Source/queue.o
                                0xc58d (size before relaxing)
- .debug_str     0x000e4b85      0xf76 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
+ .debug_str     0x000e4bdf      0xf76 ./Middlewares/Third_Party/FreeRTOS/Source/tasks.o
                                0xd2ab (size before relaxing)
- .debug_str     0x000e5afb      0x4e2 ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
+ .debug_str     0x000e5b55      0x4e2 ./Middlewares/Third_Party/FreeRTOS/Source/timers.o
                                0xce22 (size before relaxing)
- .debug_str     0x000e5fdd      0x783 ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ .debug_str     0x000e6037      0x783 ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
                                0xa35d (size before relaxing)
- .debug_str     0x000e6760      0x2ef ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_str     0x000e67ba      0x2ef ./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
                                0xb4eb (size before relaxing)
- .debug_str     0x000e6a4f      0x203 ./SoarDebug/DebugTask.o
+ .debug_str     0x000e6aa9      0x203 ./SoarDebug/DebugTask.o
                               0xd5734 (size before relaxing)
- .debug_str     0x000e6c52      0xd48 ./SoarOS/Core/Command.o
+ .debug_str     0x000e6cac      0xd48 ./SoarOS/Core/Command.o
                               0xd5c42 (size before relaxing)
- .debug_str     0x000e799a       0xf1 ./SoarOS/Core/Mutex.o
+ .debug_str     0x000e79f4       0xf1 ./SoarOS/Core/Mutex.o
                               0xd4321 (size before relaxing)
- .debug_str     0x000e7a8b       0x40 ./SoarOS/Core/Queue.o
+ .debug_str     0x000e7ae5       0x40 ./SoarOS/Core/Queue.o
                               0xd4fca (size before relaxing)
- .debug_str     0x000e7acb       0x54 ./SoarOS/Core/Task.o
+ .debug_str     0x000e7b25       0x54 ./SoarOS/Core/Task.o
                               0xd511d (size before relaxing)
- .debug_str     0x000e7b1f      0x217 ./SoarOS/CubeDefines.o
+ .debug_str     0x000e7b79      0x217 ./SoarOS/CubeDefines.o
                               0xd5580 (size before relaxing)
- .debug_str     0x000e7d36       0xd2 ./SoarOS/CubeTask.o
+ .debug_str     0x000e7d90       0xd2 ./SoarOS/CubeTask.o
                               0xd5327 (size before relaxing)
- .debug_str     0x000e7e08      0x172 ./SoarOS/Drivers/UARTDriver.o
+ .debug_str     0x000e7e62      0x172 ./SoarOS/Drivers/UARTDriver.o
                               0xd42dc (size before relaxing)
 
 .comment        0x00000000       0x43
