@@ -1,0 +1,16 @@
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3075:26:uint32_t LL_USART_IsActiveFlag_PE(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3086:26:uint32_t LL_USART_IsActiveFlag_FE(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3097:26:uint32_t LL_USART_IsActiveFlag_NE(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3108:26:uint32_t LL_USART_IsActiveFlag_ORE(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3147:26:uint32_t LL_USART_IsActiveFlag_RXNE(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3159:26:uint32_t LL_USART_IsActiveFlag_TC(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3187:26:uint32_t LL_USART_IsActiveFlag_TXE(const USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3485:22:void LL_USART_ClearFlag_ORE(USART_TypeDef*)	1
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3672:22:void LL_USART_EnableIT_RXNE(USART_TypeDef*)	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:4543:25:uint8_t LL_USART_ReceiveData8(const USART_TypeDef*)	1
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:4566:22:void LL_USART_TransmitData8(USART_TypeDef*, uint8_t)	1
+../SoarOS/Drivers/UARTDriver.cpp:23:6:bool UARTDriver::Transmit(uint8_t*, uint16_t)	4
+../SoarOS/Drivers/UARTDriver.cpp:44:6:bool UARTDriver::ReceiveIT(uint8_t*, UARTReceiverBase*)	2
+../SoarOS/Drivers/UARTDriver.cpp:67:6:bool UARTDriver::HandleAndClearRxError()	6
+../SoarOS/Drivers/UARTDriver.cpp:94:6:bool UARTDriver::GetRxErrors()	5
+../SoarOS/Drivers/UARTDriver.cpp:118:6:void UARTDriver::HandleIRQ_UART()	4
