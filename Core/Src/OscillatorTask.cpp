@@ -14,7 +14,6 @@
 #include "CubeUtils.hpp"
 #include <cstring>
 
-#include "stm32l4xx_hal.h"
 /************************************
  * PRIVATE MACROS AND DEFINES
  ************************************/
@@ -23,7 +22,7 @@
  * VARIABLES
  ************************************/
 constexpr uint8_t OSCILLATOR_TASK_PERIOD = 100;
-extern CRC_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef hi2c2;
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
@@ -38,12 +37,10 @@ extern CRC_HandleTypeDef hi2c2;
 OscillatorTask::OscillatorTask()
     : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), usart_(UART::Debug) {
   memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
-  memset(oscillatorLogBuffer, 0, sizeof(oscillatorLogBuffer));
   oscillatorMsgIdx = 0;
-  oscillatorLogIdx = 0;
 
   // delay frequency in ms
-  sampleInterval = 10;
+  sampleInterval = 1000;
   isOscillatorMsgReady = false;
   loggingStatus = false;
 }
@@ -85,24 +82,48 @@ void OscillatorTask::Run(void* pvParams) {
       HandleUARTMessage((const char*)oscillatorBuffer);
     }
     cm.Reset();
-  }
 
-  // // this block is mine but idk its probably wrong
-  //   if (loggingStatus) {
-  //           if (oscillatorLogIdx < OSCILLATOR_LOG_BUFFER_SZ_BYTES) {
-  //               oscillatorLogBuffer[oscillatorLogIdx++] = HAL_GetTick(); 
-  //           }
-  //       }
+    if (loggingStatus) {
+        // start flash address after firmware
+        static uint32_t flashAddress = 0x08010000;
+        uint32_t flashEnd = 0x0803FFFF;
 
-  if (loggingStatus) {
-            if (oscillatorLogIdx + sizeof(uint32_t) <= OSCILLATOR_LOG_BUFFER_SZ_BYTES) {
-                uint32_t tick = HAL_GetTick();
-                memcpy(&oscillatorLogBuffer[oscillatorLogIdx], &tick, sizeof(tick));
-                oscillatorLogIdx += sizeof(tick);
+        uint64_t tick = HAL_GetTick();
+
+        if (flashAddress + sizeof(tick) <= flashEnd) {
+            HAL_FLASH_Unlock();
+
+            // check if on new flash page
+            uint32_t page = (flashAddress - 0x08000000) / FLASH_PAGE_SIZE;
+            uint32_t offsetInPage = (flashAddress % FLASH_PAGE_SIZE);
+
+            // erase new pages
+            if (offsetInPage == 0) {
+                FLASH_EraseInitTypeDef eraseInit{};
+                uint32_t pageError = 0;
+
+                eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
+                eraseInit.Page = page;
+                eraseInit.NbPages = 1;
+
+                HAL_FLASHEx_Erase(&eraseInit, &pageError);
             }
-  }
 
-  osDelay(sampleInterval);
+            // write to flash
+            HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddress, tick);
+            HAL_FLASH_Lock();
+
+            flashAddress += sizeof(tick);
+        }
+        // exit when flash is full
+        else {
+            SOAR_PRINT("Flash log full\r\n");
+            loggingStatus = false;
+          }
+    }
+    // increment
+    osDelay(sampleInterval);
+  }
 }
 
 /**
@@ -113,7 +134,6 @@ void OscillatorTask::HandleUARTMessage(const char* msg) {
   if (strcmp(msg, "start") == 0) {
     SOAR_PRINT("Starting system logging\n");
     loggingStatus = true;
-    oscillatorLogIdx = 0;
   }
   else if (strcmp(msg, "stop") == 0){
     SOAR_PRINT("Ending system logging\n");

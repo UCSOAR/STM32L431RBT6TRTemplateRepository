@@ -1,5 +1,5 @@
 SoarOS/CubeTask.o: ../SoarOS/CubeTask.cpp ../SoarOS/CubeTask.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Task.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Task.hpp \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -17,11 +17,11 @@ SoarOS/CubeTask.o: ../SoarOS/CubeTask.cpp ../SoarOS/CubeTask.hpp \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Queue.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Components/SystemDefines.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Mutex.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Queue.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Components/SystemDefines.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Mutex.hpp \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -54,13 +54,13 @@ SoarOS/CubeTask.o: ../SoarOS/CubeTask.cpp ../SoarOS/CubeTask.hpp \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/CubeDefines.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/CubeDefines.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
+ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
  ../SoarOS/CubeDefines.hpp
 ../SoarOS/CubeTask.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Task.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Task.hpp:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
@@ -78,11 +78,11 @@ SoarOS/CubeTask.o: ../SoarOS/CubeTask.cpp ../SoarOS/CubeTask.hpp \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Queue.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Components/SystemDefines.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Mutex.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Queue.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Components/SystemDefines.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Mutex.hpp:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -115,8 +115,8 @@ SoarOS/CubeTask.o: ../SoarOS/CubeTask.cpp ../SoarOS/CubeTask.hpp \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/CubeDefines.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/CubeDefines.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
 ../SoarOS/CubeDefines.hpp:

@@ -25,7 +25,6 @@ enum OSCILLATOR_TASK_COMMANDS {
 };
 
 constexpr uint16_t OSCILLATOR_RX_BUFFER_SZ_BYTES = 16;
-constexpr uint16_t OSCILLATOR_LOG_BUFFER_SZ_BYTES = 1024;
 /************************************
  * TYPEDEFS
  ************************************/
@@ -63,10 +62,8 @@ class OscillatorTask : public Task, public UARTReceiverBase {
 
   // Member variables
   uint8_t oscillatorBuffer[OSCILLATOR_RX_BUFFER_SZ_BYTES + 1];
-  uint8_t oscillatorLogBuffer[OSCILLATOR_LOG_BUFFER_SZ_BYTES + 1];
   uint8_t oscillatorMsgIdx;
-  uint8_t oscillatorLogIdx;
-  uint8_t sampleInterval;
+  uint16_t sampleInterval;
   bool isOscillatorMsgReady;
   bool loggingStatus;
 
