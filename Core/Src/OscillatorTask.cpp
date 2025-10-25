@@ -39,10 +39,13 @@ OscillatorTask::OscillatorTask()
   memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
   oscillatorMsgIdx = 0;
 
-  // delay frequency in ms
-  sampleInterval = 1000;
+  sampleInterval = 1000; // log interval in ms
   isOscillatorMsgReady = false;
   loggingStatus = false;
+
+  // flash address start and end
+  flashAddress = 0x08010000;
+  flashEnd = 0x0803FFFF;
 }
 
 /**
@@ -73,7 +76,7 @@ void OscillatorTask::Run(void* pvParams) {
   while (1) {
     Command cm;
 
-    // Wait forever for a command (non blocking)
+    // queue command
     qEvtQueue->Receive(cm, 0);
 
     // Process the command
@@ -84,20 +87,16 @@ void OscillatorTask::Run(void* pvParams) {
     cm.Reset();
 
     if (loggingStatus) {
-        // start flash address after firmware
-        static uint32_t flashAddress = 0x08010000;
-        uint32_t flashEnd = 0x0803FFFF;
-
         uint64_t tick = HAL_GetTick();
 
         if (flashAddress + sizeof(tick) <= flashEnd) {
             HAL_FLASH_Unlock();
 
-            // check if on new flash page
+            // check if flashAddress is new flash page
             uint32_t page = (flashAddress - 0x08000000) / FLASH_PAGE_SIZE;
             uint32_t offsetInPage = (flashAddress % FLASH_PAGE_SIZE);
 
-            // erase new pages
+            // erase new page
             if (offsetInPage == 0) {
                 FLASH_EraseInitTypeDef eraseInit{};
                 uint32_t pageError = 0;
@@ -107,6 +106,12 @@ void OscillatorTask::Run(void* pvParams) {
                 eraseInit.NbPages = 1;
 
                 HAL_FLASHEx_Erase(&eraseInit, &pageError);
+
+                if (pageError){
+                  SOAR_PRINT("Error erasing flash page\r\n");
+                  loggingStatus = false;
+                  return;
+                }
             }
 
             // write to flash

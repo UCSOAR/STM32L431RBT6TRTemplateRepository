@@ -67,6 +67,9 @@ class OscillatorTask : public Task, public UARTReceiverBase {
   bool isOscillatorMsgReady;
   bool loggingStatus;
 
+  uint32_t flashAddress = 0x08010000;
+  uint32_t flashEnd = 0x0803FFFF;
+
   uint8_t oscillatorRxChar;  // Character received from UART Interrupt
 
   UARTDriver* const usart_;  // UART Driver

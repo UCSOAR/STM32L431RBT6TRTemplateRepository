@@ -4,9 +4,9 @@ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository
 ../Core/Src/OscillatorTask.hpp:48:15:static void OscillatorTask::RunTask(void*)	16	static
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp:22:7:constexpr UARTReceiverBase::UARTReceiverBase()	16	static
 ../Core/Src/OscillatorTask.cpp:37:1:OscillatorTask::OscillatorTask()	16	static
-../Core/Src/OscillatorTask.cpp:51:6:virtual void OscillatorTask::InitTask()	32	static
-../Core/Src/OscillatorTask.cpp:69:6:void OscillatorTask::Run(void*)	80	static
-../Core/Src/OscillatorTask.cpp:129:6:void OscillatorTask::HandleUARTMessage(const char*)	16	static
-../Core/Src/OscillatorTask.cpp:147:6:bool OscillatorTask::ReceiveData()	16	static
-../Core/Src/OscillatorTask.cpp:153:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	32	static
-../Core/Src/OscillatorTask.cpp:190:9:static int32_t OscillatorTask::ExtractIntParameter(const char*, uint16_t)	24	static
+../Core/Src/OscillatorTask.cpp:54:6:virtual void OscillatorTask::InitTask()	32	static
+../Core/Src/OscillatorTask.cpp:72:6:void OscillatorTask::Run(void*)	72	static
+../Core/Src/OscillatorTask.cpp:137:6:void OscillatorTask::HandleUARTMessage(const char*)	16	static
+../Core/Src/OscillatorTask.cpp:155:6:bool OscillatorTask::ReceiveData()	16	static
+../Core/Src/OscillatorTask.cpp:161:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	32	static
+../Core/Src/OscillatorTask.cpp:198:9:static int32_t OscillatorTask::ExtractIntParameter(const char*, uint16_t)	24	static
