@@ -17,6 +17,12 @@
 /************************************
  * PRIVATE MACROS AND DEFINES
  ************************************/
+struct OTBLogEntry {
+    uint64_t tick;
+    float ax;
+    float ay;
+    float az;
+};
 
 /************************************
  * VARIABLES
@@ -48,6 +54,7 @@ OscillatorTask::OscillatorTask()
   flashEnd = 0x0803FFFF;
 }
 
+
 /**
  * @brief Init task for RTOS
  */
@@ -65,6 +72,19 @@ void OscillatorTask::InitTask() {
   SOAR_ASSERT(rtValue == pdPASS, "OscillatorTask::InitTask - xTaskCreate() failed");
 }
 
+// print contents of flash to UART
+void OscillatorTask::ReadFlashLog() {
+    uint32_t addr = 0x08010000;
+    while (addr < flashAddress) {
+        OTBLogEntry entry;
+        memcpy(&entry, (void*)addr, sizeof(OTBLogEntry));
+
+        SOAR_PRINT("Tick: %llu, ax: %.2f, ay: %.2f, az: %.2f\r\n",
+                   entry.tick, entry.ax, entry.ay, entry.az);
+
+        addr += sizeof(OTBLogEntry);
+    }
+}
 // TODO: Only run thread when appropriate GPIO pin pulled HIGH (or by define)
 /**
  *    @brief Runcode for the DebugTask
@@ -87,9 +107,18 @@ void OscillatorTask::Run(void* pvParams) {
     cm.Reset();
 
     if (loggingStatus) {
-        uint64_t tick = HAL_GetTick();
+        // init log entry struct 
+        OTBLogEntry entry;
 
-        if (flashAddress + sizeof(tick) <= flashEnd) {
+        entry.tick = HAL_GetTick();
+
+        lis3dh_read_data();
+        entry.ax = acceleration_mg[0];
+        entry.ay = acceleration_mg[1];
+        entry.az = acceleration_mg[2];
+        //uint64_t tick = HAL_GetTick();
+
+        if (flashAddress + sizeof(OTBLogEntry) <= flashEnd) {
             HAL_FLASH_Unlock();
 
             // check if flashAddress is new flash page
@@ -115,10 +144,22 @@ void OscillatorTask::Run(void* pvParams) {
             }
 
             // write to flash
-            HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddress, tick);
+            uint64_t* dataPtr = (uint64_t*)&entry;
+            size_t numDoubleWords = sizeof(OTBLogEntry) / 8;
+
+            for (size_t i = 0; i < numDoubleWords; i++) {
+                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddress, dataPtr[i]) != HAL_OK) {
+                    SOAR_PRINT("Error writing to flash\r\n");
+                    HAL_FLASH_Lock();
+                    loggingStatus = false;
+                    break;
+                }
+                flashAddress += 8;
+            }
+
             HAL_FLASH_Lock();
 
-            flashAddress += sizeof(tick);
+            flashAddress += sizeof(entry);
         }
         // exit when flash is full
         else {
@@ -141,7 +182,8 @@ void OscillatorTask::HandleUARTMessage(const char* msg) {
     loggingStatus = true;
   }
   else if (strcmp(msg, "stop") == 0){
-    SOAR_PRINT("Ending system logging\n");
+    SOAR_PRINT("Stopping system logging\n");
+    ReadFlashLog();
     loggingStatus = false;
   }
 

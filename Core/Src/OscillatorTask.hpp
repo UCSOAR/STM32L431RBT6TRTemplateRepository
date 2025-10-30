@@ -49,6 +49,7 @@ class OscillatorTask : public Task, public UARTReceiverBase {
     OscillatorTask::Inst().Run(pvParams);
   }  // Static Task Interface, passes control to the instance Run();
 
+  void ReadFlashLog();
   void Run(void* pvParams);  // Main run code
 
   void ConfigureUART();
