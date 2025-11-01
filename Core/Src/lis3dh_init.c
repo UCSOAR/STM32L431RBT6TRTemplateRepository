@@ -49,10 +49,10 @@ void lis3dh_init(void)
     Error_Handler();
   }
 
-  // Reset to default
-  lis3dh_reset_set(&dev_ctx, PROPERTY_ENABLE);
-  HAL_Delay(10);
+  // lis3dh_reset_set(&dev_ctx, PROPERTY_ENABLE);
+  // HAL_Delay(10);
 
+  // configure clean defaults manually:
   // Enable X, Y, Z axes and set data rate
   lis3dh_data_rate_set(&dev_ctx, LIS3DH_ODR_10Hz);
   lis3dh_full_scale_set(&dev_ctx, LIS3DH_2g);

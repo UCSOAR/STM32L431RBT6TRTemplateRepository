@@ -12,6 +12,8 @@
 // Tasks
 #include "CubeTask.hpp"
 #include "DebugTask.hpp"
+#include "OscillatorTask.hpp"
+#include "lis3dh_init.h"
 
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
@@ -26,6 +28,8 @@ void run_main() {
     // Init Tasks
     CubeTask::Inst().InitTask();
     DebugTask::Inst().InitTask();
+  //  OscillatorTask::Inst().InitTask();
+    //lis3dh_init();
 
     // Print System Boot Info : Warning, don't queue more than 10 prints before scheduler starts
     SOAR_PRINT("\n-- CUBE SYSTEM --\n");

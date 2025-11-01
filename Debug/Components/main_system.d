@@ -60,7 +60,11 @@ Components/main_system.o: ../Components/main_system.cpp \
  /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp \
  /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
  /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/CubeDefines.hpp \
- /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarDebug/Inc/DebugTask.hpp
+ /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarDebug/Inc/DebugTask.hpp \
+ /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Core/Src/OscillatorTask.hpp \
+ /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp \
+ /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Core/Src/lis3dh_init.h \
+ /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/../Drivers/LIS3DH_Driver/lis3dh_reg.h
 ../Components/SystemDefines.hpp:
 ../Components/main_system.hpp:
 /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Mutex.hpp:
@@ -124,3 +128,7 @@ Components/main_system.o: ../Components/main_system.cpp \
 /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
 /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/CubeDefines.hpp:
 /Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarDebug/Inc/DebugTask.hpp:
+/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Core/Src/OscillatorTask.hpp:
+/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp:
+/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/Core/Src/lis3dh_init.h:
+/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/../Drivers/LIS3DH_Driver/lis3dh_reg.h:
