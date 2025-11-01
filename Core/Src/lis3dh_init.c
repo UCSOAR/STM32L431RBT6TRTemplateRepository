@@ -7,6 +7,7 @@
 
 
 #include "../Drivers/LIS3DH_Driver/lis3dh_reg.h"
+#include "lis3dh_init.h"
 #include "main.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_i2c.h"

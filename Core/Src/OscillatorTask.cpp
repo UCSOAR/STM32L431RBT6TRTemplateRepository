@@ -12,6 +12,7 @@
 #include "OscillatorTask.hpp"
 #include "Command.hpp"
 #include "CubeUtils.hpp"
+#include "lis3dh_init.h"
 #include <cstring>
 
 /************************************
