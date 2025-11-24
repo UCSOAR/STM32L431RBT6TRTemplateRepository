@@ -34,6 +34,11 @@ constexpr uint16_t OSCILLATOR_RX_BUFFER_SZ_BYTES = 16;
  ************************************/
 class OscillatorTask : public Task, public UARTReceiverBase {
  public:
+  uint32_t& FlashAddress() { return flashAddress; }
+  uint32_t FlashEnd() const { return flashEnd; }
+  bool& LoggingStatus() { return loggingStatus; }
+  
+
   static OscillatorTask& Inst() {
     static OscillatorTask inst;
     return inst;
@@ -43,6 +48,7 @@ class OscillatorTask : public Task, public UARTReceiverBase {
 
   // Interrupt receive callback
   void InterruptRxData(uint8_t errors);
+  bool loggingStatus;
 
  protected:
   static void RunTask(void* pvParams) {
@@ -54,7 +60,6 @@ class OscillatorTask : public Task, public UARTReceiverBase {
 
   void ConfigureUART();
   void HandleUARTMessage(const char* msg);
-  // void HandleCommand(Command& cm);
 
   bool ReceiveData();
 
@@ -66,7 +71,6 @@ class OscillatorTask : public Task, public UARTReceiverBase {
   uint8_t oscillatorMsgIdx;
   uint16_t sampleInterval;
   bool isOscillatorMsgReady;
-  bool loggingStatus;
 
   uint32_t flashAddress = 0x08010000;
   uint32_t flashEnd = 0x0803FFFF;

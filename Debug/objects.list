@@ -1,5 +1,6 @@
 "./Components/RunInterface.o"
 "./Components/main_system.o"
+"./Core/Src/OscillatorLogger.o"
 "./Core/Src/OscillatorTask.o"
 "./Core/Src/freertos.o"
 "./Core/Src/lis3dh_init.o"

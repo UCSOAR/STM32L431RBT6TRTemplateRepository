@@ -10,6 +10,7 @@
  * INCLUDES
  ************************************/
 #include "OscillatorTask.hpp"
+#include "OscillatorLogger.hpp"
 #include "Command.hpp"
 #include "CubeUtils.hpp"
 #include "lis3dh_init.h"
@@ -18,12 +19,6 @@
 /************************************
  * PRIVATE MACROS AND DEFINES
  ************************************/
-struct OTBLogEntry {
-    uint64_t tick;
-    float ax;
-    float ay;
-    float az;
-};
 
 /************************************
  * VARIABLES
@@ -95,9 +90,10 @@ void OscillatorTask::Run(void* pvParams) {
   ReceiveData();
 
   while (1) {
+
     Command cm;
 
-    // queue command
+    // Wait forever for a command
     qEvtQueue->Receive(cm, 0);
 
     // Process the command
@@ -105,70 +101,8 @@ void OscillatorTask::Run(void* pvParams) {
         cm.GetTaskCommand() == EVENT_OSCILLATOR_RX_COMPLETE) {
       HandleUARTMessage((const char*)oscillatorBuffer);
     }
+
     cm.Reset();
-
-    if (loggingStatus) {
-        // init log entry struct 
-        OTBLogEntry entry;
-
-        entry.tick = HAL_GetTick();
-
-        lis3dh_read_data();
-        entry.ax = acceleration_mg[0];
-        entry.ay = acceleration_mg[1];
-        entry.az = acceleration_mg[2];
-        //uint64_t tick = HAL_GetTick();
-
-        if (flashAddress + sizeof(OTBLogEntry) <= flashEnd) {
-            HAL_FLASH_Unlock();
-
-            // check if flashAddress is new flash page
-            uint32_t page = (flashAddress - 0x08000000) / FLASH_PAGE_SIZE;
-            uint32_t offsetInPage = (flashAddress % FLASH_PAGE_SIZE);
-
-            // erase new page
-            if (offsetInPage == 0) {
-                FLASH_EraseInitTypeDef eraseInit{};
-                uint32_t pageError = 0;
-
-                eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
-                eraseInit.Page = page;
-                eraseInit.NbPages = 1;
-
-                HAL_FLASHEx_Erase(&eraseInit, &pageError);
-
-                if (pageError){
-                  SOAR_PRINT("Error erasing flash page\r\n");
-                  loggingStatus = false;
-                  return;
-                }
-            }
-
-            // write to flash
-            uint64_t* dataPtr = (uint64_t*)&entry;
-            size_t numDoubleWords = sizeof(OTBLogEntry) / 8;
-
-            for (size_t i = 0; i < numDoubleWords; i++) {
-                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddress, dataPtr[i]) != HAL_OK) {
-                    SOAR_PRINT("Error writing to flash\r\n");
-                    HAL_FLASH_Lock();
-                    loggingStatus = false;
-                    break;
-                }
-                flashAddress += 8;
-            }
-
-            HAL_FLASH_Lock();
-
-            flashAddress += sizeof(entry);
-        }
-        // exit when flash is full
-        else {
-            SOAR_PRINT("Flash log full\r\n");
-            loggingStatus = false;
-          }
-    }
-    // increment
     osDelay(sampleInterval);
   }
 }
@@ -178,14 +112,16 @@ void OscillatorTask::Run(void* pvParams) {
  * @param msg Message to read, must be null termianted
  */
 void OscillatorTask::HandleUARTMessage(const char* msg) {
+  SOAR_PRINT("UART MSG: %s\n", msg);
   if (strcmp(msg, "start") == 0) {
     SOAR_PRINT("Starting system logging\n");
     loggingStatus = true;
   }
   else if (strcmp(msg, "stop") == 0){
     SOAR_PRINT("Stopping system logging\n");
-    ReadFlashLog();
+    // ReadFlashLog();
     loggingStatus = false;
+    OscillatorLogger::Inst().DumpFlash();
   }
 
   // We've read the data, clear the buffer

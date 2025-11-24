@@ -1,13 +1,14 @@
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:48:21:GLOBAL_COMMANDS Command::GetCommand() const	1
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:49:14:uint16_t Command::GetTaskCommand() const	1
-../Core/Src/OscillatorTask.hpp:37:26:static OscillatorTask& OscillatorTask::Inst()	3
-../Core/Src/OscillatorTask.hpp:48:15:static void OscillatorTask::RunTask(void*)	1
-/Users/gillianhabermehl/Documents/SOAR/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp:22:7:constexpr UARTReceiverBase::UARTReceiverBase()	1
-../Core/Src/OscillatorTask.cpp:44:1:OscillatorTask::OscillatorTask()	1
-../Core/Src/OscillatorTask.cpp:62:6:virtual void OscillatorTask::InitTask()	3
-../Core/Src/OscillatorTask.cpp:77:6:void OscillatorTask::ReadFlashLog()	2
-../Core/Src/OscillatorTask.cpp:93:6:void OscillatorTask::Run(void*)	10
-../Core/Src/OscillatorTask.cpp:180:6:void OscillatorTask::HandleUARTMessage(const char*)	3
-../Core/Src/OscillatorTask.cpp:199:6:bool OscillatorTask::ReceiveData()	1
-../Core/Src/OscillatorTask.cpp:205:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	5
-../Core/Src/OscillatorTask.cpp:242:9:static int32_t OscillatorTask::ExtractIntParameter(const char*, uint16_t)	3
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:48:21:GLOBAL_COMMANDS Command::GetCommand() const	1
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:49:14:uint16_t Command::GetTaskCommand() const	1
+../Core/Src/OscillatorTask.hpp:42:26:static OscillatorTask& OscillatorTask::Inst()	3
+../Core/Src/OscillatorTask.hpp:54:15:static void OscillatorTask::RunTask(void*)	1
+../Core/Src/OscillatorLogger.hpp:36:30:static OscillatorLogger& OscillatorLogger::Inst()	3
+C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp:22:7:constexpr UARTReceiverBase::UARTReceiverBase()	1
+../Core/Src/OscillatorTask.cpp:39:1:OscillatorTask::OscillatorTask()	1
+../Core/Src/OscillatorTask.cpp:57:6:virtual void OscillatorTask::InitTask()	3
+../Core/Src/OscillatorTask.cpp:72:6:void OscillatorTask::ReadFlashLog()	2
+../Core/Src/OscillatorTask.cpp:88:6:void OscillatorTask::Run(void*)	4
+../Core/Src/OscillatorTask.cpp:114:6:void OscillatorTask::HandleUARTMessage(const char*)	3
+../Core/Src/OscillatorTask.cpp:135:6:bool OscillatorTask::ReceiveData()	1
+../Core/Src/OscillatorTask.cpp:141:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	5
+../Core/Src/OscillatorTask.cpp:178:9:static int32_t OscillatorTask::ExtractIntParameter(const char*, uint16_t)	3
