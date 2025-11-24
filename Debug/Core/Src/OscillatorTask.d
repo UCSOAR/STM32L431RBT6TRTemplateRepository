@@ -60,7 +60,7 @@ Core/Src/OscillatorTask.o: ../Core/Src/OscillatorTask.cpp \
  C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
  C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp \
  C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp \
- ../Core/Src/OscillatorLogger.hpp \
+ ../Core/Src/lis3dh_utils.h ../Core/Src/OscillatorLogger.hpp \
  C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp \
  ../Core/Src/lis3dh_init.h \
  C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/../Drivers/LIS3DH_Driver/lis3dh_reg.h
@@ -125,6 +125,7 @@ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/CubeUtils.hpp:
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Components/main_system.hpp:
+../Core/Src/lis3dh_utils.h:
 ../Core/Src/OscillatorLogger.hpp:
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:
 ../Core/Src/lis3dh_init.h:

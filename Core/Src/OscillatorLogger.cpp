@@ -28,7 +28,7 @@
  * FUNCTION DEFINITIONS
  ************************************/
 OscillatorLogger::OscillatorLogger()
-    : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS) {}
+    : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), flashAddr(0x08010000) {} // Start flash logging here
 
 void OscillatorLogger::InitTask() {
     SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot init OscillatorLogger twice");
@@ -42,31 +42,31 @@ void OscillatorLogger::InitTask() {
 }
 
 void OscillatorLogger::Run(void* pvParams) {
-    // log frequency
-    const TickType_t delay = pdMS_TO_TICKS(500);
+    const TickType_t delay = pdMS_TO_TICKS(5000);
+    const uint32_t flashEnd = OscillatorTask::Inst().FlashEnd();
 
     while (1) {
-        auto& flashAddr = OscillatorTask::Inst().FlashAddress();
-        auto flashEnd   = OscillatorTask::Inst().FlashEnd();
-        auto& logging   = OscillatorTask::Inst().LoggingStatus();
+        auto& logging = OscillatorTask::Inst().LoggingStatus();
 
         if (logging) {
-            uint16_t tick16 = static_cast<uint16_t>(HAL_GetTick() & 0xFFFF);
+            OTBLogEntry entry;
+            entry.tick = HAL_GetTick();
 
-            if (flashAddr + 8 <= flashEnd) {
+            if(!lis3dh_read_xyz(&entry.ax, &entry.ay, &entry.az)) {
+                entry.ax = entry.ay = entry.az = 0;
+            }
+
+            if (this->flashAddr + sizeof(OTBLogEntry) <= flashEnd) {
                 HAL_FLASH_Unlock();
 
-                // calculate page index
-                uint32_t page = (flashAddr - 0x08000000) / FLASH_PAGE_SIZE;
-
-                // erase flash page if start of page
-                if (((flashAddr - 0x08000000) % FLASH_PAGE_SIZE) == 0) {
+                // erase page if at start
+                if (((this->flashAddr - 0x08000000) % FLASH_PAGE_SIZE) == 0) {
                     FLASH_EraseInitTypeDef eraseInit{};
                     uint32_t pageError = 0;
 
                     eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
                     eraseInit.Banks     = FLASH_BANK_1; 
-                    eraseInit.Page      = page;
+                    eraseInit.Page      = (this->flashAddr - 0x08000000) / FLASH_PAGE_SIZE;
                     eraseInit.NbPages   = 1;
 
                     if (HAL_FLASHEx_Erase(&eraseInit, &pageError) != HAL_OK) {
@@ -77,38 +77,65 @@ void OscillatorLogger::Run(void* pvParams) {
                     }
                 }
 
-                // Pack tick16 into a 64-bit doubleword
-                uint64_t data64 = tick16;
-
-                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddr, data64) != HAL_OK) {
-                    SOAR_PRINT("Error writing to flash\r\n");
+                // Write first 8 bytes (tick + ax + ay)
+                uint64_t first64;
+                memcpy(&first64, &entry, 8);
+                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, this->flashAddr, first64) != HAL_OK) {
+                    SOAR_PRINT("Error writing flash\r\n");
                     HAL_FLASH_Lock();
                     logging = false;
-                } else {
-                    flashAddr += 8;  // increment by doubleword size
+                    continue;
                 }
+                this->flashAddr += 8;
+
+                // Write remaining 4 bytes (az + padding)
+                uint64_t second64 = 0;
+                memcpy(&second64, ((uint8_t*)&entry)+8, 4); // 4 bytes: az + 2 bytes padding
+                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, this->flashAddr, second64) != HAL_OK) {
+                    SOAR_PRINT("Error writing flash\r\n");
+                    HAL_FLASH_Lock();
+                    logging = false;
+                    continue;
+                }
+                this->flashAddr += 8;
 
                 HAL_FLASH_Lock();
+                
+                SOAR_PRINT("Logged entry at 0x%08lX\r\n", this->flashAddr - 16);
             } else {
                 SOAR_PRINT("Flash full, stopping log\r\n");
                 logging = false;
             }
         }
-
         vTaskDelay(delay);
     }
 }
 
 void OscillatorLogger::DumpFlash() {
-    uint32_t addr = 0x08010000; // start of flash
-    while (addr < OscillatorTask::Inst().FlashAddress()) {
-        uint64_t data64;
-        memcpy(&data64, (void*)addr, sizeof(uint64_t));
+    SOAR_PRINT("Dumping flash from 0x%08lX to 0x%08lX\r\n", 0x08010000, this->flashAddr);
+    
+    uint32_t addr = 0x08010000;
+    uint32_t entryCount = 0;
+    
+    while (addr < this->flashAddr) {
+        OTBLogEntry entry;
+        uint64_t first64, second64;
 
-        // extract 16-bit tick value
-        uint16_t tick16 = static_cast<uint16_t>(data64 & 0xFFFF);
-        SOAR_PRINT("Tick: %u\r\n", tick16);
-
+        // Read first 8 bytes
+        memcpy(&first64, (void*)addr, 8);
         addr += 8;
+
+        // Read next 8 bytes
+        memcpy(&second64, (void*)addr, 8);
+        addr += 8;
+
+        // Reconstruct entry
+        memcpy(&entry, &first64, 8);          // tick + ax + ay
+        memcpy(((uint8_t*)&entry)+8, &second64, 4); // az + padding
+
+        SOAR_PRINT("Entry %lu - Tick: %lu, ax: %d, ay: %d, az: %d\r\n",
+                   entryCount++, entry.tick, entry.ax, entry.ay, entry.az);
     }
+    
+    SOAR_PRINT("Total entries dumped: %lu\r\n", entryCount);
 }

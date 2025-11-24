@@ -40,6 +40,7 @@ public:
 
     void InitTask();
     void DumpFlash();
+    uint32_t flashAddr = 0x08010000;
 
 protected:
     OscillatorLogger();

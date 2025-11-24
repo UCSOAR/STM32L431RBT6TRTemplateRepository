@@ -15,6 +15,7 @@
 #include "Task.hpp"
 #include "SystemDefines.hpp"
 #include "main_system.hpp"
+#include "lis3dh_utils.h"
 
 /************************************
  * MACROS AND DEFINES
