@@ -37,10 +37,14 @@ public:
         static OscillatorLogger instance;
         return instance;
     }
+    void SaveFlashPtr();
 
     void InitTask();
     void DumpFlash();
+    void ResetSession();
     uint32_t flashAddr = 0x08010000;
+    static constexpr uint32_t FLASH_LOG_PTR_ADDR = 0x0800FFF0; 
+    static constexpr uint32_t LOG_START_ADDR = 0x08010000;
 
 protected:
     OscillatorLogger();

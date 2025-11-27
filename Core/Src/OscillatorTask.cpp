@@ -116,12 +116,15 @@ void OscillatorTask::HandleUARTMessage(const char* msg) {
   if (strcmp(msg, "start") == 0) {
     SOAR_PRINT("Starting system logging\n");
     loggingStatus = true;
+    //OscillatorLogger::Inst().ResetSession();
   }
   else if (strcmp(msg, "stop") == 0){
     SOAR_PRINT("Stopping system logging\n");
-    // ReadFlashLog();
     loggingStatus = false;
     OscillatorLogger::Inst().DumpFlash();
+  } else if (strcmp(msg, "clear") == 0){
+    SOAR_PRINT("Clearing flash entries\n");
+    OscillatorLogger::Inst().ResetSession();
   }
 
   // We've read the data, clear the buffer

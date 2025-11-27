@@ -28,7 +28,16 @@
  * FUNCTION DEFINITIONS
  ************************************/
 OscillatorLogger::OscillatorLogger()
-    : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), flashAddr(0x08010000) {} // Start flash logging here
+    : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS) {
+        uint32_t savedAddr = *(uint32_t*)FLASH_LOG_PTR_ADDR;
+        uint32_t flashEnd  = OscillatorTask::Inst().FlashEnd();
+
+        if (savedAddr >= LOG_START_ADDR && savedAddr < flashEnd) {
+            flashAddr = savedAddr;
+        } else {
+            flashAddr = LOG_START_ADDR;
+        }
+    }
 
 void OscillatorLogger::InitTask() {
     SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot init OscillatorLogger twice");
@@ -40,6 +49,30 @@ void OscillatorLogger::InitTask() {
 
     SOAR_ASSERT(rtValue == pdPASS, "OscillatorLogger::InitTask - xTaskCreate() failed");
 }
+
+void OscillatorLogger::ResetSession() {
+    // Reset session pointer
+    flashAddr = LOG_START_ADDR;
+
+    // Erase all log pages
+    HAL_FLASH_Unlock();
+    FLASH_EraseInitTypeDef eraseInit{};
+    uint32_t pageError = 0;
+    uint32_t nbPages = (OscillatorTask::Inst().FlashEnd() - LOG_START_ADDR) / FLASH_PAGE_SIZE + 1;
+    eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
+    eraseInit.Banks     = FLASH_BANK_1;
+    eraseInit.Page      = (LOG_START_ADDR - 0x08000000) / FLASH_PAGE_SIZE;
+    eraseInit.NbPages   = nbPages;
+    if (HAL_FLASHEx_Erase(&eraseInit, &pageError) != HAL_OK) {
+        SOAR_PRINT("Error erasing flash pages\r\n");
+    }
+    HAL_FLASH_Lock();
+
+    // Save pointer so a fresh session starts from LOG_START_ADDR
+    SaveFlashPtr();
+}
+
+
 
 void OscillatorLogger::Run(void* pvParams) {
     const TickType_t delay = pdMS_TO_TICKS(5000);
@@ -56,17 +89,17 @@ void OscillatorLogger::Run(void* pvParams) {
                 entry.ax = entry.ay = entry.az = 0;
             }
 
-            if (this->flashAddr + sizeof(OTBLogEntry) <= flashEnd) {
+            if (flashAddr + sizeof(OTBLogEntry) <= flashEnd) {
                 HAL_FLASH_Unlock();
 
-                // erase page if at start
-                if (((this->flashAddr - 0x08000000) % FLASH_PAGE_SIZE) == 0) {
+                // Erase page if on boundary
+                if (((flashAddr - 0x08000000) % FLASH_PAGE_SIZE) == 0) {
                     FLASH_EraseInitTypeDef eraseInit{};
                     uint32_t pageError = 0;
 
                     eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
-                    eraseInit.Banks     = FLASH_BANK_1; 
-                    eraseInit.Page      = (this->flashAddr - 0x08000000) / FLASH_PAGE_SIZE;
+                    eraseInit.Banks     = FLASH_BANK_1;
+                    eraseInit.Page      = (flashAddr - 0x08000000) / FLASH_PAGE_SIZE;
                     eraseInit.NbPages   = 1;
 
                     if (HAL_FLASHEx_Erase(&eraseInit, &pageError) != HAL_OK) {
@@ -77,65 +110,88 @@ void OscillatorLogger::Run(void* pvParams) {
                     }
                 }
 
-                // Write first 8 bytes (tick + ax + ay)
+                // Write first 8 bytes
                 uint64_t first64;
                 memcpy(&first64, &entry, 8);
-                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, this->flashAddr, first64) != HAL_OK) {
+                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddr, first64) != HAL_OK) {
                     SOAR_PRINT("Error writing flash\r\n");
                     HAL_FLASH_Lock();
                     logging = false;
                     continue;
                 }
-                this->flashAddr += 8;
+                flashAddr += 8;
 
-                // Write remaining 4 bytes (az + padding)
+                // Write next 4 bytes
                 uint64_t second64 = 0;
-                memcpy(&second64, ((uint8_t*)&entry)+8, 4); // 4 bytes: az + 2 bytes padding
-                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, this->flashAddr, second64) != HAL_OK) {
+                memcpy(&second64, ((uint8_t*)&entry) + 8, 4);
+                if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddr, second64) != HAL_OK) {
                     SOAR_PRINT("Error writing flash\r\n");
                     HAL_FLASH_Lock();
                     logging = false;
                     continue;
                 }
-                this->flashAddr += 8;
+                flashAddr += 8;
 
                 HAL_FLASH_Lock();
-                
-                SOAR_PRINT("Logged entry at 0x%08lX\r\n", this->flashAddr - 16);
+
+                // Save updated pointer persistently
+                SaveFlashPtr();
+
+                SOAR_PRINT("Logged entry at 0x%08lX\r\n", flashAddr - 16);
+
             } else {
                 SOAR_PRINT("Flash full, stopping log\r\n");
                 logging = false;
             }
         }
+
         vTaskDelay(delay);
     }
 }
 
+
+void OscillatorLogger::SaveFlashPtr() {
+    HAL_FLASH_Unlock();
+
+    FLASH_EraseInitTypeDef eraseInit{};
+    uint32_t pageError = 0;
+
+    eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
+    eraseInit.Banks     = FLASH_BANK_1;
+    eraseInit.Page      = (FLASH_LOG_PTR_ADDR - 0x08000000) / FLASH_PAGE_SIZE;
+    eraseInit.NbPages   = 1;
+
+    HAL_FLASHEx_Erase(&eraseInit, &pageError);
+
+    uint64_t packed = flashAddr;
+    HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, FLASH_LOG_PTR_ADDR, packed);
+
+    HAL_FLASH_Lock();
+}
+
 void OscillatorLogger::DumpFlash() {
-    SOAR_PRINT("Dumping flash from 0x%08lX to 0x%08lX\r\n", 0x08010000, this->flashAddr);
-    
-    uint32_t addr = 0x08010000;
+    SOAR_PRINT("Tick,ax,ay,az\r\n");
+
+    uint32_t addr = LOG_START_ADDR;
     uint32_t entryCount = 0;
-    
-    while (addr < this->flashAddr) {
+
+    while (addr < flashAddr) {
         OTBLogEntry entry;
         uint64_t first64, second64;
 
-        // Read first 8 bytes
         memcpy(&first64, (void*)addr, 8);
         addr += 8;
 
-        // Read next 8 bytes
         memcpy(&second64, (void*)addr, 8);
         addr += 8;
 
-        // Reconstruct entry
-        memcpy(&entry, &first64, 8);          // tick + ax + ay
-        memcpy(((uint8_t*)&entry)+8, &second64, 4); // az + padding
+        memcpy(&entry, &first64, 8);
+        memcpy(((uint8_t*)&entry) + 8, &second64, 4);
 
-        SOAR_PRINT("Entry %lu - Tick: %lu, ax: %d, ay: %d, az: %d\r\n",
-                   entryCount++, entry.tick, entry.ax, entry.ay, entry.az);
+        SOAR_PRINT("%lu,%d,%d,%d,%d\r\n",
+                   entry.tick, entry.ax, entry.ay, entry.az);
+        entryCount++;
     }
-    
+
     SOAR_PRINT("Total entries dumped: %lu\r\n", entryCount);
 }
