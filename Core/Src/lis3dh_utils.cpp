@@ -8,6 +8,14 @@ extern I2C_HandleTypeDef hi2c2; // your I2C handle
 #define LIS3DH_OUT_X_L   0x28
 #define LIS3DH_WHO_AM_I  0x0F
 
+void lis3dh_init() {
+    uint8_t data;
+
+    data = 0x57; // 0b01010111 → 100 Hz, all axes enabled
+    HAL_I2C_Mem_Write(&hi2c2, LIS3DH_ADDR, 0x20, I2C_MEMADD_SIZE_8BIT, &data, 1, 100);
+}
+
+
 bool lis3dh_read_xyz(int16_t* x, int16_t* y, int16_t* z) {
     uint8_t raw[6];
 

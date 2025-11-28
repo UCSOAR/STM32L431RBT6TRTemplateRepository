@@ -48,6 +48,9 @@ void OscillatorLogger::InitTask() {
         (UBaseType_t)TASK_OSCILLATOR_PRIORITY, (TaskHandle_t*)&rtTaskHandle);
 
     SOAR_ASSERT(rtValue == pdPASS, "OscillatorLogger::InitTask - xTaskCreate() failed");
+
+    lis3dh_init();
+
 }
 
 void OscillatorLogger::ResetSession() {
@@ -188,10 +191,53 @@ void OscillatorLogger::DumpFlash() {
         memcpy(&entry, &first64, 8);
         memcpy(((uint8_t*)&entry) + 8, &second64, 4);
 
-        SOAR_PRINT("%lu,%d,%d,%d,%d\r\n",
-                   entry.tick, entry.ax, entry.ay, entry.az);
+        const char* resetStr = "UNKNOWN";
+switch(entry.entryType) {
+    case 0: resetStr = "NORMAL"; break;
+    case 1: resetStr = "SOFTWARE"; break;
+    case 2: resetStr = "IWDG"; break;
+    case 3: resetStr = "POR+PIN"; break;
+    case 4: resetStr = "WWDG"; break;
+}
+SOAR_PRINT("%lu,%d,%d,%d,%s\r\n",
+           entry.tick, entry.ax, entry.ay, entry.az, resetStr);
+
+
         entryCount++;
     }
 
     SOAR_PRINT("Total entries dumped: %lu\r\n", entryCount);
+}
+
+void OscillatorLogger::LogImmediate(const OTBLogEntry& entry) {
+    uint32_t flashEnd = OscillatorTask::Inst().FlashEnd();
+
+    if (flashAddr + sizeof(OTBLogEntry) > flashEnd) return;
+
+    HAL_FLASH_Unlock();
+
+    // page erase if needed
+    if (((flashAddr - 0x08000000) % FLASH_PAGE_SIZE) == 0) {
+        FLASH_EraseInitTypeDef eraseInit{};
+        uint32_t pageError;
+        eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
+        eraseInit.Banks     = FLASH_BANK_1;
+        eraseInit.Page      = (flashAddr - 0x08000000) / FLASH_PAGE_SIZE;
+        eraseInit.NbPages   = 1;
+        HAL_FLASHEx_Erase(&eraseInit, &pageError);
+    }
+
+    // Write as two doublewords like before
+    uint64_t first64, second64 = 0;
+    memcpy(&first64, &entry, 8);
+    memcpy(&second64, ((uint8_t*)&entry)+8, sizeof(OTBLogEntry)-8);
+
+    HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddr, first64);
+    flashAddr += 8;
+
+    HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flashAddr, second64);
+    flashAddr += 8;
+
+    HAL_FLASH_Lock();
+    SaveFlashPtr();
 }

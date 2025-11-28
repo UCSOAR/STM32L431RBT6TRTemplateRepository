@@ -20,9 +20,11 @@
  ************************************/
 struct OTBLogEntry {
     uint32_t tick;
-    int16_t ax;
-    int16_t ay;
-    int16_t az;
+    int16_t  ax;
+    int16_t  ay;
+    int16_t  az;
+    uint8_t  entryType;
+    uint8_t  reserved;
 };
 /************************************
  * TYPEDEFS
@@ -42,6 +44,8 @@ public:
     void InitTask();
     void DumpFlash();
     void ResetSession();
+    void LogImmediate(const OTBLogEntry& entry);
+
     uint32_t flashAddr = 0x08010000;
     static constexpr uint32_t FLASH_LOG_PTR_ADDR = 0x0800FFF0; 
     static constexpr uint32_t LOG_START_ADDR = 0x08010000;
