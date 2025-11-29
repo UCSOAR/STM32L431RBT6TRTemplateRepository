@@ -43,14 +43,19 @@ constexpr uint8_t UART_TASK_RTOS_PRIORITY = 2;            // Priority of the uar
 constexpr uint8_t UART_TASK_QUEUE_DEPTH_OBJS = 10;        // Size of the uart task queue
 constexpr uint16_t UART_TASK_STACK_DEPTH_WORDS = 512;    // Size of the uart task stack
 
-// DEBUG TASK
+// OSCILLATOR LOGGING TASK
 constexpr uint8_t TASK_OSCILLATOR_PRIORITY = 2;            // Priority of the debug task
 constexpr uint8_t TASK_OSCILLATOR_QUEUE_DEPTH_OBJS = 10;        // Size of the debug task queue
 constexpr uint16_t TASK_OSCILLATOR_STACK_DEPTH_WORDS = 512;        // Size of the debug task stack
 
-//debug task!!!!!!!!!!
+//DEBUG TASK
 constexpr uint8_t TASK_DEBUG_PRIORITY = 2;            // Priority of the debug task
 constexpr uint8_t TASK_DEBUG_QUEUE_DEPTH_OBJS = 10;        // Size of the debug task queue
 constexpr uint16_t TASK_DEBUG_STACK_DEPTH_WORDS = 512;        // Size of the debug task stack
+
+// Watchdog task
+constexpr uint8_t TASK_IWDG_PRIORITY = 1;  // Priority of the IWDG task
+constexpr uint8_t TASK_IWDG_QUEUE_DEPTH_OBJS =10;  // Size of the IWDG task queue
+constexpr uint16_t TASK_IWDG_STACK_DEPTH_WORDS =512;  // Size of the IWDG task stack
 
 #endif // CUBE_MAIN_SYSTEM_DEFINES_H

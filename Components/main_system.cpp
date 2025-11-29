@@ -15,6 +15,7 @@
 #include "DebugTask.hpp"
 #include "OscillatorTask.hpp"
 #include "OscillatorLogger.hpp"
+#include "IWDGTask.hpp"
 
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
@@ -56,6 +57,8 @@ void log_reset_reason() {
 void run_main() {
     // Init Tasks
     CubeTask::Inst().InitTask();
+    IWDGTask::Inst().InitTask();
+    IWDGTask::Inst().InitIWDG();
     OscillatorTask::Inst().InitTask();
     OscillatorLogger::Inst().InitTask();
     log_reset_reason(); 
