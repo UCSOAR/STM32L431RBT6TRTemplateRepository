@@ -36,16 +36,12 @@ void log_reset_reason() {
     entry.ax = entry.ay = entry.az = 0;
 
     // Map CSR flags to a reason code
-    if (csr & RCC_CSR_SFTRSTF) {
-        entry.entryType = 1; // SOFTWARE
-    } else if (csr & RCC_CSR_IWDGRSTF) {
-        entry.entryType = 2; // IWDG
+    if (csr & RCC_CSR_IWDGRSTF) {
+        entry.entryType = 1; // IWDG
     } else if ((csr & RCC_CSR_BORRSTF) && (csr & RCC_CSR_PINRSTF)) {
-        entry.entryType = 3; // POR + PIN
-    } else if (csr & RCC_CSR_WWDGRSTF) {
-        entry.entryType = 4; // WWDG
+        entry.entryType = 2; // power on
     } else {
-        entry.entryType = 0; // Unknown / other
+        entry.entryType = 0; // normal
     }
 
     OscillatorLogger::Inst().LogImmediate(entry);
@@ -62,7 +58,7 @@ void run_main() {
     OscillatorTask::Inst().InitTask();
     OscillatorLogger::Inst().InitTask();
     log_reset_reason(); 
-//    OscillatorTask::Inst().LoggingStatus() = true;
+
     // Print System Boot Info : Warning, don't queue more than 10 prints before scheduler starts
     SOAR_PRINT("\n-- CUBE SYSTEM --\n");
     SOAR_PRINT("System Reset Reason: [TODO]\n"); //TODO: System reset reason can be implemented via. Flash storage

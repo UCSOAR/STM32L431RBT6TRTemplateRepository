@@ -70,12 +70,23 @@ void IWDGTask::InitTask() {
  * @param pvParams
  */
 void IWDGTask::Run(void* pvParams) {
-  while (1) {
-    HAL_IWDG_Refresh(&hiwdg1);
-    SOAR_PRINT("Refreshing IWDG\n");
-    //vTaskDelay(pdMS_TO_TICKS(6000));
-  }
+    TickType_t startTick = xTaskGetTickCount();
+
+    while (1) {
+        TickType_t elapsed = xTaskGetTickCount() - startTick;
+
+        if (elapsed < pdMS_TO_TICKS(25000)) { // first 25 seconds
+            HAL_IWDG_Refresh(&hiwdg1);       // refresh normally
+        } else {
+            // stop refreshing to simulate timeout
+            // you can optionally suspend the task
+            vTaskSuspend(nullptr);
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
 }
+
 
 /**
  * @brief Handles a command
