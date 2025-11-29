@@ -36,55 +36,55 @@ extern I2C_HandleTypeDef hi2c2;
 /**
  * @brief Constructor, sets all member variables
  */
-OscillatorTask::OscillatorTask()
-    : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), usart_(UART::Debug) {
-  memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
-  oscillatorMsgIdx = 0;
+// OscillatorTask::OscillatorTask()
+//     : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), usart_(UART::Debug) {
+//   memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
+//   oscillatorMsgIdx = 0;
 
-  sampleInterval = 1000; // log interval in ms
-  isOscillatorMsgReady = false;
-  loggingStatus = false;
+//   sampleInterval = 1000; // log interval in ms
+//   isOscillatorMsgReady = false;
+//   loggingStatus = false;
 
-  // flash address start and end
-  flashAddress = 0x08010000;
-  flashEnd = 0x0803FFFF;
-}
+//   // flash address start and end
+//   flashAddress = 0x08010000;
+//   flashEnd = 0x0803FFFF;
+// }
 
 
-/**
- * @brief Init task for RTOS
- */
-void OscillatorTask::InitTask() {
-  // Make sure the task is not already initialized
-  SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize Oscillator task twice");
+// /**
+//  * @brief Init task for RTOS
+//  */
+// void OscillatorTask::InitTask() {
+//   // Make sure the task is not already initialized
+//   SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize Oscillator task twice");
 
-  // Start the task
-  BaseType_t rtValue = xTaskCreate(
-      (TaskFunction_t)OscillatorTask::RunTask, (const char*)"OscillatorTask",
-      (uint16_t)TASK_OSCILLATOR_STACK_DEPTH_WORDS, (void*)this,
-      (UBaseType_t)TASK_OSCILLATOR_PRIORITY, (TaskHandle_t*)&rtTaskHandle);
+//   // Start the task
+//   BaseType_t rtValue = xTaskCreate(
+//       (TaskFunction_t)OscillatorTask::RunTask, (const char*)"OscillatorTask",
+//       (uint16_t)TASK_OSCILLATOR_STACK_DEPTH_WORDS, (void*)this,
+//       (UBaseType_t)TASK_OSCILLATOR_PRIORITY, (TaskHandle_t*)&rtTaskHandle);
 
-  // Ensure creation succeeded
-  SOAR_ASSERT(rtValue == pdPASS, "OscillatorTask::InitTask - xTaskCreate() failed");
-}
+//   // Ensure creation succeeded
+//   SOAR_ASSERT(rtValue == pdPASS, "OscillatorTask::InitTask - xTaskCreate() failed");
+// }
 
-// print contents of flash to UART
-void OscillatorTask::ReadFlashLog() {
-    uint32_t addr = 0x08010000;
-    while (addr < flashAddress) {
-        OTBLogEntry entry;
-        memcpy(&entry, (void*)addr, sizeof(OTBLogEntry));
+// // print contents of flash to UART
+// void OscillatorTask::ReadFlashLog() {
+//     uint32_t addr = 0x08010000;
+//     while (addr < flashAddress) {
+//         OTBLogEntry entry;
+//         memcpy(&entry, (void*)addr, sizeof(OTBLogEntry));
 
-        SOAR_PRINT("Tick: %llu, ax: %.2f, ay: %.2f, az: %.2f\r\n",
-                   entry.tick, entry.ax, entry.ay, entry.az);
+//         SOAR_PRINT("Tick: %llu, ax: %.2f, ay: %.2f, az: %.2f\r\n",
+//                    entry.tick, entry.ax, entry.ay, entry.az);
 
-        addr += sizeof(OTBLogEntry);
-    }
-}
-// TODO: Only run thread when appropriate GPIO pin pulled HIGH (or by define)
-/**
- *    @brief Runcode for the DebugTask
- */
+//         addr += sizeof(OTBLogEntry);
+//     }
+// }
+// // TODO: Only run thread when appropriate GPIO pin pulled HIGH (or by define)
+// /**
+//  *    @brief Runcode for the DebugTask
+//  */
 void OscillatorTask::Run(void* pvParams) {
   // Arm the interrupt
   ReceiveData();
@@ -107,40 +107,40 @@ void OscillatorTask::Run(void* pvParams) {
   }
 }
 
-/**
- * @brief Handles oscillator messages, assumes msg is null terminated
- * @param msg Message to read, must be null termianted
- */
-void OscillatorTask::HandleUARTMessage(const char* msg) {
-  SOAR_PRINT("UART MSG: %s\n", msg);
-  if (strcmp(msg, "start") == 0) {
-    SOAR_PRINT("Starting system logging\n");
-    loggingStatus = true;
-    //OscillatorLogger::Inst().ResetSession();
-  }
-  else if (strcmp(msg, "stop") == 0){
-    SOAR_PRINT("Stopping system logging\n");
-    loggingStatus = false;
-    OscillatorLogger::Inst().DumpFlash();
-  } else if (strcmp(msg, "clear") == 0){
-    SOAR_PRINT("Clearing flash entries\n");
-    OscillatorLogger::Inst().ResetSession();
-  }
+// /**
+//  * @brief Handles oscillator messages, assumes msg is null terminated
+//  * @param msg Message to read, must be null termianted
+//  */
+// void OscillatorTask::HandleUARTMessage(const char* msg) {
+//   SOAR_PRINT("UART MSG: %s\n", msg);
+//   if (strcmp(msg, "start") == 0) {
+//     SOAR_PRINT("Starting system logging\n");
+//     loggingStatus = true;
+//     //OscillatorLogger::Inst().ResetSession();
+//   }
+//   else if (strcmp(msg, "stop") == 0){
+//     SOAR_PRINT("Stopping system logging\n");
+//     loggingStatus = false;
+//     OscillatorLogger::Inst().DumpFlash();
+//   } else if (strcmp(msg, "clear") == 0){
+//     SOAR_PRINT("Clearing flash entries\n");
+//     OscillatorLogger::Inst().ResetSession();
+//   }
 
-  // We've read the data, clear the buffer
-  oscillatorMsgIdx = 0;
-  isOscillatorMsgReady = false;
-}
+//   // We've read the data, clear the buffer
+//   oscillatorMsgIdx = 0;
+//   isOscillatorMsgReady = false;
+// }
 
-/**
- * @brief Receive data, currently receives by arming interrupt
- */
+// /**
+//  * @brief Receive data, currently receives by arming interrupt
+// */
 bool OscillatorTask::ReceiveData() { return usart_->ReceiveIT(&oscillatorRxChar, this); }
 
-/**
- * @brief Receive data to the buffer
- * @return Whether the debugBuffer is ready or not
- */
+// /**
+//  * @brief Receive data to the buffer
+//  * @return Whether the debugBuffer is ready or not
+//  */
 void OscillatorTask::InterruptRxData(uint8_t errors) {
   // If we already have an unprocessed debug message, ignore this byte
   if (!isOscillatorMsgReady) {
@@ -170,28 +170,114 @@ void OscillatorTask::InterruptRxData(uint8_t errors) {
   ReceiveData();
 }
 
+// /**
+//  * @brief Extracts an integer parameter from a string
+//  * @brief msg Message to extract from, MUST be at least identifierLen long, and
+//  * properly null terminated
+//  * @brief identifierLen Length of the identifier eg. 'rsc ' (Including the
+//  * space) is 4
+//  * @return ERRVAL on failure, otherwise the extracted value
+//  */
+// int32_t OscillatorTask::ExtractIntParameter(const char* msg,
+//                                        uint16_t identifierLen) {
+//   // Handle a command with an int parameter at the end
+//   if (static_cast<uint16_t>(strlen(msg)) < identifierLen + 1) {
+//     SOAR_PRINT("Int parameter command insufficient length\r\n");
+//     return ERRVAL;
+//   }
+
+//   // Extract the value and attempt conversion to integer
+//   const int32_t val = Utils::StringToLong(&msg[identifierLen]);
+//   if (val == ERRVAL) {
+//     SOAR_PRINT("Int parameter command invalid value\r\n");
+//   }
+
+//   return val;
+// }
+
+
+
 /**
- * @brief Extracts an integer parameter from a string
- * @brief msg Message to extract from, MUST be at least identifierLen long, and
- * properly null terminated
- * @brief identifierLen Length of the identifier eg. 'rsc ' (Including the
- * space) is 4
- * @return ERRVAL on failure, otherwise the extracted value
+ * @file    OscillatorTask.cpp
+ * @brief   (Revised with persistent loggingStatus)
  */
-int32_t OscillatorTask::ExtractIntParameter(const char* msg,
-                                       uint16_t identifierLen) {
-  // Handle a command with an int parameter at the end
-  if (static_cast<uint16_t>(strlen(msg)) < identifierLen + 1) {
-    SOAR_PRINT("Int parameter command insufficient length\r\n");
-    return ERRVAL;
-  }
 
-  // Extract the value and attempt conversion to integer
-  const int32_t val = Utils::StringToLong(&msg[identifierLen]);
-  if (val == ERRVAL) {
-    SOAR_PRINT("Int parameter command invalid value\r\n");
-  }
 
-  return val;
+
+#define FLASH_LOG_STATUS_ADDR  0x0800F800  // *** NEW: persistent flag storage ***
+
+OscillatorTask::OscillatorTask()
+    : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS), usart_(UART::Debug)
+{
+    memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
+    oscillatorMsgIdx = 0;
+
+    sampleInterval = 1000;
+    isOscillatorMsgReady = false;
+
+    // ---- Load persistent logging flag ----
+    uint32_t flag = *(uint32_t*)FLASH_LOG_STATUS_ADDR;
+    if (flag == 0xAAAAAAAA)
+        loggingStatus = true;
+    else
+        loggingStatus = false;
+
+    flashAddress = 0x08010000;
+    flashEnd = 0x0803FFFF;
 }
 
+static void SaveLoggingStatus(bool enabled)
+{
+    HAL_FLASH_Unlock();
+
+    FLASH_EraseInitTypeDef erase{};
+    uint32_t pageError;
+
+    erase.TypeErase = FLASH_TYPEERASE_PAGES;
+    erase.Banks     = FLASH_BANK_1;
+    erase.Page      = (FLASH_LOG_STATUS_ADDR - 0x08000000) / FLASH_PAGE_SIZE;
+    erase.NbPages   = 1;
+
+    HAL_FLASHEx_Erase(&erase, &pageError);
+
+    uint64_t word = enabled ? 0xAAAAAAAA : 0x00000000;
+    HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, FLASH_LOG_STATUS_ADDR, word);
+
+    HAL_FLASH_Lock();
+}
+
+void OscillatorTask::InitTask()
+{
+    SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize Oscillator task twice");
+
+    BaseType_t rtValue = xTaskCreate(
+        (TaskFunction_t)OscillatorTask::RunTask, "OscillatorTask",
+        TASK_OSCILLATOR_STACK_DEPTH_WORDS, this,
+        TASK_OSCILLATOR_PRIORITY, &rtTaskHandle);
+
+    SOAR_ASSERT(rtValue == pdPASS, "OscillatorTask::InitTask - xTaskCreate() failed");
+}
+
+void OscillatorTask::HandleUARTMessage(const char* msg)
+{
+    SOAR_PRINT("UART MSG: %s\n", msg);
+
+    if (strcmp(msg, "start") == 0) {
+        SOAR_PRINT("Starting system logging\n");
+        loggingStatus = true;
+        SaveLoggingStatus(true);
+    }
+    else if (strcmp(msg, "stop") == 0) {
+        SOAR_PRINT("Stopping system logging\n");
+        loggingStatus = false;
+        SaveLoggingStatus(false);
+        OscillatorLogger::Inst().DumpFlash();
+    }
+    else if (strcmp(msg, "clear") == 0) {
+        SOAR_PRINT("Clearing flash entries\n");
+        OscillatorLogger::Inst().ResetSession();
+    }
+
+    oscillatorMsgIdx = 0;
+    isOscillatorMsgReady = false;
+}

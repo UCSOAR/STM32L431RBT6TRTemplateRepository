@@ -59,7 +59,7 @@ void run_main() {
     OscillatorTask::Inst().InitTask();
     OscillatorLogger::Inst().InitTask();
     log_reset_reason(); 
-    OscillatorTask::Inst().LoggingStatus() = true;
+//    OscillatorTask::Inst().LoggingStatus() = true;
     // Print System Boot Info : Warning, don't queue more than 10 prints before scheduler starts
     SOAR_PRINT("\n-- CUBE SYSTEM --\n");
     SOAR_PRINT("System Reset Reason: [TODO]\n"); //TODO: System reset reason can be implemented via. Flash storage
