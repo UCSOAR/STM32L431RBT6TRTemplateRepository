@@ -15,10 +15,12 @@
 #include "OscillatorTask.hpp"
 #include "lis3dh_init.h"
 
+
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
     UARTDriver uart1(USART1);
 }
+
 
 /* Interface Functions ------------------------------------------------------------*/
 /**
@@ -28,11 +30,13 @@ void run_main() {
     // Init Tasks
     CubeTask::Inst().InitTask();
     DebugTask::Inst().InitTask();
-  //  OscillatorTask::Inst().InitTask();
+    OscillatorTask::Inst().InitTask();
     //lis3dh_init();
 
+    SOAR_PRINT("\n-- INITIALIZED --\n");
+
     // Print System Boot Info : Warning, don't queue more than 10 prints before scheduler starts
-    SOAR_PRINT("\n-- CUBE SYSTEM --\n");
+    SOAR_PRINT("\n-- CUBE EM --\n");
     SOAR_PRINT("System Reset Reason: [TODO]\n"); //TODO: System reset reason can be implemented via. Flash storage
     SOAR_PRINT("Current System Free Heap: %d Bytes\n", xPortGetFreeHeapSize());
     SOAR_PRINT("Lowest Ever Free Heap: %d Bytes\n\n", xPortGetMinimumEverFreeHeapSize());

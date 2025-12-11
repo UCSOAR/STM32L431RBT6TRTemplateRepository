@@ -87,6 +87,37 @@ void OscillatorTask::ReadFlashLog() {
     }
 }
 // TODO: Only run thread when appropriate GPIO pin pulled HIGH (or by define)
+
+// alternative to ReadFlashLog()
+void OscillatorTask::DumpFlashCSV() {
+    uint32_t addr = 0x08010000;
+
+    // Print a CSV header (PC sees this via UART)
+    SOAR_PRINT("tick,ax,ay,az\r\n");
+
+    while (addr < flashAddress) {
+        OTBLogEntry entry;
+        memcpy(&entry, (void*)addr, sizeof(OTBLogEntry));
+
+        // Stop on blank or erased flash (0xFFFFFFFFFFFFFFFF)
+        if (entry.tick == 0xFFFFFFFFFFFFFFFFULL) {
+            break;
+        }
+
+        SOAR_PRINT("%llu,%.3f,%.3f,%.3f\r\n",
+                   entry.tick,
+                   entry.ax,
+                   entry.ay,
+                   entry.az);
+
+        addr += sizeof(OTBLogEntry);
+    }
+
+    SOAR_PRINT("END_OF_CSV\r\n");
+}
+
+
+
 /**
  *    @brief Runcode for the DebugTask
  */
@@ -96,7 +127,7 @@ void OscillatorTask::Run(void* pvParams) {
 
   while (1) {
     Command cm;
-
+    SOAR_PRINT("THIS IS RUNNING ");
     // queue command
     qEvtQueue->Receive(cm, 0);
 
@@ -184,8 +215,9 @@ void OscillatorTask::HandleUARTMessage(const char* msg) {
   }
   else if (strcmp(msg, "stop") == 0){
     SOAR_PRINT("Stopping system logging\n");
-    ReadFlashLog();
     loggingStatus = false;
+    //ReadFlashLog();
+    DumpFlashCSV();
   }
 
   // We've read the data, clear the buffer

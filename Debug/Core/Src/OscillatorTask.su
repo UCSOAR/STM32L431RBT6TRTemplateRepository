@@ -6,8 +6,9 @@
 ../Core/Src/OscillatorTask.cpp:44:1:OscillatorTask::OscillatorTask()	16	static
 ../Core/Src/OscillatorTask.cpp:62:6:virtual void OscillatorTask::InitTask()	32	static
 ../Core/Src/OscillatorTask.cpp:77:6:void OscillatorTask::ReadFlashLog()	96	static
-../Core/Src/OscillatorTask.cpp:93:6:void OscillatorTask::Run(void*)	104	static
-../Core/Src/OscillatorTask.cpp:180:6:void OscillatorTask::HandleUARTMessage(const char*)	16	static
-../Core/Src/OscillatorTask.cpp:199:6:bool OscillatorTask::ReceiveData()	16	static
-../Core/Src/OscillatorTask.cpp:205:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	32	static
-../Core/Src/OscillatorTask.cpp:242:9:static int32_t OscillatorTask::ExtractIntParameter(const char*, uint16_t)	24	static
+../Core/Src/OscillatorTask.cpp:92:6:void OscillatorTask::DumpFlashCSV()	96	static
+../Core/Src/OscillatorTask.cpp:124:6:void OscillatorTask::Run(void*)	104	static
+../Core/Src/OscillatorTask.cpp:211:6:void OscillatorTask::HandleUARTMessage(const char*)	16	static
+../Core/Src/OscillatorTask.cpp:231:6:bool OscillatorTask::ReceiveData()	16	static
+../Core/Src/OscillatorTask.cpp:237:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	32	static
+../Core/Src/OscillatorTask.cpp:274:9:static int32_t OscillatorTask::ExtractIntParameter(const char*, uint16_t)	24	static
