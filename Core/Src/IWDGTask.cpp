@@ -16,7 +16,7 @@
 #include <time.h>
 #include "IWDGTask.hpp"
 
-extern IWDG_HandleTypeDef hiwdg1;
+extern IWDG_HandleTypeDef hiwdg;
 /************************************
  * PRIVATE MACROS AND DEFINES
  ************************************/
@@ -34,57 +34,36 @@ extern IWDG_HandleTypeDef hiwdg1;
  ************************************/
 /**
  * @brief Default constructor, sets and sets up storage for member variables
- */
+*/
 IWDGTask::IWDGTask() : Task(TASK_IWDG_QUEUE_DEPTH_OBJS) {}
-/**
- * @brief IWDG1 Initialization Function
- */
-void IWDGTask::InitIWDG() {
-  hiwdg1.Instance = IWDG;
-  hiwdg1.Init.Prescaler = IWDG_PRESCALER_64;
-  hiwdg1.Init.Reload = 2499;
 
-  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK) {
-    Error_Handler();
-  }
-}
 /**
- * @brief Creates a task for the FreeRTOS Scheduler
- */
+* @brief Creates a task for the FreeRTOS Scheduler
+*/
 void IWDGTask::InitTask() {
-  // Make sure the task is not already initialized
-  SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize PT task twice");
+ // Make sure the task is not already initialized
+ SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize PT task twice");
 
-  // Start the task
-  BaseType_t rtValue = xTaskCreate(
-      (TaskFunction_t)IWDGTask::RunTask, (const char*)"IWDGTask",
-      (uint16_t)TASK_IWDG_STACK_DEPTH_WORDS, (void*)this,
-      (UBaseType_t)TASK_IWDG_PRIORITY, (TaskHandle_t*)&rtTaskHandle);
+ // Start the task
+ BaseType_t rtValue = xTaskCreate(
+     (TaskFunction_t)IWDGTask::RunTask, (const char*)"IWDGTask",
+     (uint16_t)TASK_IWDG_STACK_DEPTH_WORDS, (void*)this,
+     (UBaseType_t)TASK_IWDG_PRIORITY, (TaskHandle_t*)&rtTaskHandle);
 
-  // Ensure creation succeeded
-  SOAR_ASSERT(rtValue == pdPASS, "IWDGTask::InitTask() - xTaskCreate() failed");
+ // Ensure creation succeeded
+ SOAR_ASSERT(rtValue == pdPASS, "IWDGTask::InitTask() - xTaskCreate() failed");
 }
 
 /**
  * @brief
  * @param pvParams
- */
+*/
 void IWDGTask::Run(void* pvParams) {
-    TickType_t startTick = xTaskGetTickCount();
 
-    while (1) {
-        TickType_t elapsed = xTaskGetTickCount() - startTick;
-
-        if (elapsed < pdMS_TO_TICKS(25000)) { // first 25 seconds
-            HAL_IWDG_Refresh(&hiwdg1);       // refresh normally
-        } else {
-            // stop refreshing to simulate timeout
-            // you can optionally suspend the task
-            vTaskSuspend(nullptr);
-        }
-
-        vTaskDelay(pdMS_TO_TICKS(100));
-    }
+   while (1) {
+      vTaskDelay(pdMS_TO_TICKS(1000));
+      HAL_IWDG_Refresh(&hiwdg);
+   }
 }
 
 

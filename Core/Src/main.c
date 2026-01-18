@@ -45,7 +45,7 @@ CRC_HandleTypeDef hcrc;
 
 I2C_HandleTypeDef hi2c2;
 
-IWDG_HandleTypeDef hiwdg1;
+IWDG_HandleTypeDef hiwdg;
 
 osThreadId defaultTaskHandle;
 /* USER CODE BEGIN PV */
@@ -169,11 +169,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -184,7 +182,7 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
@@ -242,7 +240,7 @@ static void MX_I2C2_Init(void)
 
   /* USER CODE END I2C2_Init 1 */
   hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x00100D14;
+  hi2c2.Init.Timing = 0x00302833;
   hi2c2.Init.OwnAddress1 = 0;
   hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -289,11 +287,12 @@ static void MX_IWDG_Init(void)
   /* USER CODE BEGIN IWDG_Init 1 */
 
   /* USER CODE END IWDG_Init 1 */
-  hiwdg1.Instance = IWDG;
-  hiwdg1.Init.Prescaler = IWDG_PRESCALER_16;
-  hiwdg1.Init.Window = 4095;
-  hiwdg1.Init.Reload = 4095;
-  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
+  hiwdg.Instance = IWDG;
+  hiwdg.Init.Prescaler = IWDG_PRESCALER_16;
+  hiwdg.Init.Window = 4095;
+  hiwdg.Init.Reload = 4095;
+  HAL_IWDG_Refresh(&hiwdg);
+  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
   {
     Error_Handler();
   }
@@ -379,6 +378,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 

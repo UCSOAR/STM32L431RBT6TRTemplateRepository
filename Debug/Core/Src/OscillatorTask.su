@@ -1,13 +1,13 @@
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:48:21:GLOBAL_COMMANDS Command::GetCommand() const	16	static
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Core/Inc/Command.hpp:49:14:uint16_t Command::GetTaskCommand() const	16	static
 ../Core/Src/OscillatorTask.hpp:43:26:static OscillatorTask& OscillatorTask::Inst()	8	static
-../Core/Src/OscillatorTask.hpp:55:15:static void OscillatorTask::RunTask(void*)	16	static
+../Core/Src/OscillatorTask.hpp:54:15:static void OscillatorTask::RunTask(void*)	16	static
 ../Core/Src/OscillatorLogger.hpp:38:30:static OscillatorLogger& OscillatorLogger::Inst()	8	static
-../Core/Src/OscillatorTask.cpp:88:6:void OscillatorTask::Run(void*)	32	static
-../Core/Src/OscillatorTask.cpp:138:6:bool OscillatorTask::ReceiveData()	16	static
-../Core/Src/OscillatorTask.cpp:144:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	32	static
+../Core/Src/OscillatorTask.cpp:38:6:void OscillatorTask::Run(void*)	32	static
+../Core/Src/OscillatorTask.cpp:63:6:bool OscillatorTask::ReceiveData()	16	static
+../Core/Src/OscillatorTask.cpp:71:6:virtual void OscillatorTask::InterruptRxData(uint8_t)	32	static
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/SoarOS/Drivers/Inc/UARTDriver.hpp:22:7:constexpr UARTReceiverBase::UARTReceiverBase()	16	static
-../Core/Src/OscillatorTask.cpp:209:1:OscillatorTask::OscillatorTask()	24	static
-../Core/Src/OscillatorTask.cpp:229:13:void SaveLoggingStatus(bool)	48	static
-../Core/Src/OscillatorTask.cpp:249:6:virtual void OscillatorTask::InitTask()	32	static
-../Core/Src/OscillatorTask.cpp:261:6:void OscillatorTask::HandleUARTMessage(const char*)	16	static
+../Core/Src/OscillatorTask.cpp:102:1:OscillatorTask::OscillatorTask()	24	static
+../Core/Src/OscillatorTask.cpp:122:13:void SaveLoggingStatus(bool)	48	static
+../Core/Src/OscillatorTask.cpp:142:6:virtual void OscillatorTask::InitTask()	32	static
+../Core/Src/OscillatorTask.cpp:154:6:void OscillatorTask::HandleUARTMessage(const char*)	16	static

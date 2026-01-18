@@ -47,24 +47,22 @@ class OscillatorTask : public Task, public UARTReceiverBase {
 
   void InitTask();
 
-  // Interrupt receive callback
   void InterruptRxData(uint8_t errors);
   bool loggingStatus;
 
  protected:
   static void RunTask(void* pvParams) {
     OscillatorTask::Inst().Run(pvParams);
-  }  // Static Task Interface, passes control to the instance Run();
+  }
 
   void ReadFlashLog();
-  void Run(void* pvParams);  // Main run code
+  void Run(void* pvParams);
 
   void ConfigureUART();
   void HandleUARTMessage(const char* msg);
 
   bool ReceiveData();
 
-  // Helper functions
   static int32_t ExtractIntParameter(const char* msg, uint16_t identifierLen);
 
   // Member variables
@@ -76,12 +74,12 @@ class OscillatorTask : public Task, public UARTReceiverBase {
   uint32_t flashAddress = 0x08010000;
   uint32_t flashEnd = 0x0803FFFF;
 
-  uint8_t oscillatorRxChar;  // Character received from UART Interrupt
+  uint8_t oscillatorRxChar;
 
-  UARTDriver* const usart_;  // UART Driver
+  UARTDriver* const usart_;
 
  private:
-  OscillatorTask();                             // Private constructor
+  OscillatorTask();                                  // Private constructor
   OscillatorTask(const OscillatorTask&);             // Prevent copy-construction
   OscillatorTask& operator=(const OscillatorTask&);  // Prevent assignment
 };

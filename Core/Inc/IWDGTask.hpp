@@ -29,13 +29,11 @@
 class IWDGTask : public Task {
  public:
   static IWDGTask& Inst() {
-    static IWDGTask inst;
-    return inst;
+   static IWDGTask inst;
+   return inst;
   }
 
   void InitTask();
-
-  void InitIWDG();
 
  protected:
   static void RunTask(void* pvParams) {

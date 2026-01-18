@@ -39,8 +39,8 @@ public:
         static OscillatorLogger instance;
         return instance;
     }
+    
     void SaveFlashPtr();
-
     void InitTask();
     void DumpFlash();
     void ResetSession();

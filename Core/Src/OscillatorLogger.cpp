@@ -146,7 +146,7 @@ void OscillatorLogger::InitTask()
 
 void OscillatorLogger::Run(void* pvParams)
 {
-    const TickType_t delay = pdMS_TO_TICKS(100);
+    const TickType_t delay = pdMS_TO_TICKS(1000);
     const uint32_t flashEnd = OscillatorTask::Inst().FlashEnd();
 
     while (1)

@@ -4,7 +4,7 @@ C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Core/Src/OscillatorTask.hpp:43:26:static OscillatorTask& OscillatorTask::Inst()	3
 C:/Users/Chris/STM32CubeIDE/workspace_1.16.1/STM32L431RBT6TR_Template_Repository/Core/Src/OscillatorLogger.hpp:38:30:static OscillatorLogger& OscillatorLogger::Inst()	3
 ../Core/Inc/IWDGTask.hpp:31:20:static IWDGTask& IWDGTask::Inst()	3
-../Components/main_system.cpp:31:6:void log_reset_reason()	6
-../Components/main_system.cpp:57:6:void run_main()	1
-../Components/main_system.cpp:86:1:void __static_initialization_and_destruction_0(int, int)	3
-../Components/main_system.cpp:86:1:cpp)	1
+../Components/main_system.cpp:26:6:void log_reset_reason()	4
+../Components/main_system.cpp:67:6:void run_main()	1
+../Components/main_system.cpp:95:1:void __static_initialization_and_destruction_0(int, int)	3
+../Components/main_system.cpp:95:1:cpp)	1
