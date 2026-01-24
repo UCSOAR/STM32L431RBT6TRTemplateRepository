@@ -19,7 +19,8 @@
 /************************************
  * VARIABLES
  ************************************/
-
+extern IWDG_HandleTypeDef hiwdg; 
+#define FLASH_LOG_PTR_ADDR 0x0800F000
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
@@ -28,25 +29,40 @@
  * FUNCTION DEFINITIONS
  ************************************/
 void OscillatorLogger::ResetSession() {
+    OscillatorTask::Inst().LoggingStatus() = false;
+
     // Reset session pointer
     flashAddr = LOG_START_ADDR;
 
-    // Erase all log pages
     HAL_FLASH_Unlock();
-    FLASH_EraseInitTypeDef eraseInit{};
-    uint32_t pageError = 0;
-    uint32_t nbPages = (OscillatorTask::Inst().FlashEnd() - LOG_START_ADDR) / FLASH_PAGE_SIZE + 1;
-    eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
-    eraseInit.Banks     = FLASH_BANK_1;
-    eraseInit.Page      = (LOG_START_ADDR - 0x08000000) / FLASH_PAGE_SIZE;
-    eraseInit.NbPages   = nbPages;
-    if (HAL_FLASHEx_Erase(&eraseInit, &pageError) != HAL_OK) {
-        SOAR_PRINT("Error erasing flash pages\r\n");
+
+    // compute number of flash pages to erase
+    uint32_t startPage = (LOG_START_ADDR - 0x08000000) / FLASH_PAGE_SIZE;
+    uint32_t totalPages = (OscillatorTask::Inst().FlashEnd() - LOG_START_ADDR) / FLASH_PAGE_SIZE + 1;
+
+    // erase flash
+    for (uint32_t i = 0; i < totalPages; i++) {
+        FLASH_EraseInitTypeDef eraseInit{};
+        uint32_t pageError = 0;
+
+        eraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
+        eraseInit.Banks     = FLASH_BANK_1;
+        eraseInit.Page      = startPage + i;
+        eraseInit.NbPages   = 1;
+
+        if (HAL_FLASHEx_Erase(&eraseInit, &pageError) != HAL_OK) {
+            SOAR_PRINT("Error erasing page %lu\r\n", startPage + i);
+            break;
+        }
+
+        // refresh watchdog to prevent timeout
+        HAL_IWDG_Refresh(&hiwdg); 
     }
+
     HAL_FLASH_Lock();
 
-    // Save pointer so a fresh session starts from LOG_START_ADDR
     SaveFlashPtr();
+    SOAR_PRINT("Flash log cleared successfully.\r\n");
 }
 
 void OscillatorLogger::DumpFlash() {
@@ -116,7 +132,7 @@ void OscillatorLogger::LogImmediate(const OTBLogEntry& entry) {
 }
 
 
-#define FLASH_LOG_PTR_ADDR     0x0800F000    // existing pointer storage
+
 
 OscillatorLogger::OscillatorLogger()
     : Task(TASK_OSCILLATOR_QUEUE_DEPTH_OBJS)
