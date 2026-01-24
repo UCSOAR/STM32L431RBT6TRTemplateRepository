@@ -9,11 +9,11 @@
 /************************************
  * INCLUDES
  ************************************/
+#include <lis3dh_hal.h>
 #include "OscillatorTask.hpp"
 #include "OscillatorLogger.hpp"
 #include "Command.hpp"
 #include "CubeUtils.hpp"
-#include "lis3dh_init.h"
 #include <cstring>
 
 /************************************

@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 C++M_SRCS := 
@@ -41,7 +41,6 @@ SUBDIRS := \
 Components \
 Core/Src \
 Core/Startup \
-Drivers/LIS3DH_Driver \
 Drivers/STM32L4xx_HAL_Driver/Src \
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS \
 Middlewares/Third_Party/FreeRTOS/Source \
