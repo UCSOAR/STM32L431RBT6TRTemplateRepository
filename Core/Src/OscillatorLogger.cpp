@@ -10,10 +10,11 @@
 /************************************
  * INCLUDES
  ************************************/
+#include <lis3dh_hal.h>
 #include "OscillatorTask.hpp"
 #include "OscillatorLogger.hpp"
 #include "CubeUtils.hpp"
-#include "lis3dh_init.h"
+#include "stm32l4xx_hal.h"
 #include <cstring>
 
 /************************************
@@ -22,7 +23,7 @@
 extern IWDG_HandleTypeDef hiwdg; 
 constexpr uint8_t OSCILLATOR_TASK_PERIOD = 100;
 #define FLASH_LOG_PTR_ADDR 0x0800F000
-
+extern I2C_HandleTypeDef hi2c2;
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
@@ -159,7 +160,11 @@ void OscillatorLogger::InitTask()
 
     SOAR_ASSERT(rtValue == pdPASS, "OscillatorLogger::InitTask - xTaskCreate failed");
 
-    lis3dh_init();
+    accel.hi2c = &hi2c2;
+    accel.address = 0x18 << 1;
+    if (!LIS3DH_Init(&accel)) {
+        // error handler
+    }
 }
 
 void OscillatorLogger::Run(void* pvParams)
@@ -175,7 +180,7 @@ void OscillatorLogger::Run(void* pvParams)
             OTBLogEntry entry{};
             entry.tick = HAL_GetTick();
 
-            if (!lis3dh_read_xyz(&entry.ax, &entry.ay, &entry.az))
+            if (!LIS3DH_ReadRaw(&accel, &entry.ax, &entry.ay, &entry.az))
                 entry.ax = entry.ay = entry.az = 0;
 
             if (flashAddr + sizeof(OTBLogEntry) <= flashEnd)
