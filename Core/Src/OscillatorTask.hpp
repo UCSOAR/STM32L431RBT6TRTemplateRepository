@@ -55,20 +55,15 @@ class OscillatorTask : public Task, public UARTReceiverBase {
     OscillatorTask::Inst().Run(pvParams);
   }
 
-  void ReadFlashLog();
   void Run(void* pvParams);
 
-  void ConfigureUART();
   void HandleUARTMessage(const char* msg);
 
   bool ReceiveData();
 
-  static int32_t ExtractIntParameter(const char* msg, uint16_t identifierLen);
-
   // Member variables
   uint8_t oscillatorBuffer[OSCILLATOR_RX_BUFFER_SZ_BYTES + 1];
   uint8_t oscillatorMsgIdx;
-  uint16_t sampleInterval;
   bool isOscillatorMsgReady;
 
   uint32_t flashAddress = 0x08010000;

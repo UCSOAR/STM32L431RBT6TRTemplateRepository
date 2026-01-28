@@ -24,7 +24,6 @@
 /************************************
  * VARIABLES
  ************************************/
-constexpr uint8_t OSCILLATOR_TASK_PERIOD = 100;
 
 extern I2C_HandleTypeDef hi2c2;
 /************************************
@@ -53,7 +52,6 @@ void OscillatorTask::Run(void* pvParams) {
     }
 
     cm.Reset();
-    osDelay(sampleInterval);
   }
 }
 
@@ -105,7 +103,6 @@ OscillatorTask::OscillatorTask()
     memset(oscillatorBuffer, 0, sizeof(oscillatorBuffer));
     oscillatorMsgIdx = 0;
 
-    sampleInterval = 1000;
     isOscillatorMsgReady = false;
 
     // ---- Load persistent logging flag ----

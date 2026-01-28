@@ -20,7 +20,9 @@
  * VARIABLES
  ************************************/
 extern IWDG_HandleTypeDef hiwdg; 
+constexpr uint8_t OSCILLATOR_TASK_PERIOD = 100;
 #define FLASH_LOG_PTR_ADDR 0x0800F000
+
 /************************************
  * FUNCTION DECLARATIONS
  ************************************/
@@ -162,7 +164,6 @@ void OscillatorLogger::InitTask()
 
 void OscillatorLogger::Run(void* pvParams)
 {
-    const TickType_t delay = pdMS_TO_TICKS(1000);
     const uint32_t flashEnd = OscillatorTask::Inst().FlashEnd();
 
     while (1)
@@ -213,8 +214,8 @@ void OscillatorLogger::Run(void* pvParams)
                 logging = false;
             }
         }
-
-        vTaskDelay(delay);
+        HAL_IWDG_Refresh(&hiwdg); 
+        vTaskDelay(OSCILLATOR_TASK_PERIOD);
     }
 }
 
